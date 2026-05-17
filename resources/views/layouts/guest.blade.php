@@ -20,10 +20,10 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
 
             <!-- CARD -->
-            <div class="w-full sm:max-w-md mt-6 px-6 py-10 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg relative">
+            <div class="w-full sm:max-w-md mt-4 px-6 py-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg relative">
 
                 <!-- LOGO NO CANTO SUPERIOR ESQUERDO -->
-                <a href="/" class="absolute top-0 left-5">
+                <a href="/" class="top-0 left-2">
                     <x-application-logo class="" />
                 </a>
 

@@ -4,18 +4,17 @@
         @csrf
 
         <!-- Título -->
-        <div class="text-center mb-8">
+        <div class="text-center">
 
-            <h1 class="text-3xl font-extrabold text-purple-700 dark:text-purple-400">
+            <h1 class="text-2xl font-extrabold text-purple-700 dark:text-purple-400">
                 Crie sua Conta
             </h1>
 
-            <p class="text-gray-600 dark:text-gray-300 text-lg mt-3">
+            <p class="text-gray-600 dark:text-gray-300 text-lg">
                 Organize suas tarefas de forma moderna e eficiente
             </p>
 
         </div>
-
         
 
         <!-- Nome -->
