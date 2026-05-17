@@ -1,3 +1,1 @@
-<img src="{{ asset('img/imglogotodo-pro.png') }}" 
-     alt="Logo"
-     class=" w-32 object-contain" />
+<img src="{{ asset('img/ChatGPT Image 17 de mai. de 2026, 13_42_28.png') }}" alt="Logo" class=" w-40" />
