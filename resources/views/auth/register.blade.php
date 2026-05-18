@@ -1,24 +1,41 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}" class="space-y-5">
+    <form method="POST"
+      action="{{ route('register') }}"
+      class="flex flex-col gap-3">
         @csrf
 
-        <!-- Título -->
-        <div class="text-center space-y-2 mb-7">
-            <h1 class="text-2xl font-extrabold text-purple-700 dark:text-purple-400">
-                Crie sua Conta
-            </h1>
 
-            <p class="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
-                Organize suas tarefas de forma moderna e eficiente
-            </p>
-        </div>
+        <!-- Título -->
+            <div class=" flex flex-col items-center gap-3 mb-6">
+                <!-- Título -->
+                <h1 class="text-2xl font-black tracking-tight 
+                        text-indigo-700 dark:text-indigo-400
+                        leading-tight">
+                    Crie sua Conta
+                </h1>
+
+                <!-- Linha decorativa -->
+                <div class="w-20 h-1 rounded-full 
+                            bg-gradient-to-r from-indigo-600 to-purple-500">
+                </div>
+
+                <!-- Descrição -->
+                <p class="max-w-sm text-gray-600 dark:text-gray-300 
+                        text-sm md:text-base leading-relaxed">
+                    Organize suas tarefas de forma moderna, prática e eficiente
+                    com uma experiência simples e intuitiva.
+                </p>
+
+            </div>
+
+        
 
         <!-- Nome -->
         <div class="space-y-1.5">
             <x-input-label for="name" :value="__('Nome completo')" />
 
             <div class="relative">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-700 dark:text-purple-400">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-700 dark:text-purple-400">
                     <!-- Heroicon User -->
                     <svg xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -51,7 +68,7 @@
             <x-input-label for="email" :value="__('Email')" />
 
             <div class="relative">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-700 dark:text-purple-400">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-700 dark:text-purple-400">
                     <!-- Heroicon Envelope -->
                     <svg xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -83,7 +100,7 @@
             <x-input-label for="password" :value="__('Senha')" />
 
             <div class="relative">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-700 dark:text-purple-400">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-700 dark:text-purple-400">
                     <!-- Heroicon Lock Closed -->
                     <svg xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -107,7 +124,7 @@
 
                 <button type="button"
                     onclick="togglePassword()"
-                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 transition hover:text-purple-700 dark:text-gray-400 dark:hover:text-purple-400"
+                    class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 transition hover:text-indigo-700 dark:text-gray-400 dark:hover:text-purple-400"
                     aria-label="Mostrar ou ocultar senha">
                     <!-- Olho aberto -->
                     <svg id="eye-open"
@@ -148,7 +165,7 @@
             <x-input-label for="password_confirmation" :value="__('Confirmar senha')" />
 
             <div class="relative">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-purple-700 dark:text-purple-400">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-700 dark:text-purple-400">
                     <!-- Heroicon Shield Check -->
                     <svg xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -176,7 +193,7 @@
 
         <!-- Botões -->
         <div class="flex items-center justify-between gap-4 pt-2">
-            <a class="text-sm text-gray-600 transition hover:text-purple-700 dark:text-gray-400 dark:hover:text-purple-400"
+            <a class="text-sm text-gray-600 transition hover:text-indigo-700 dark:text-gray-400 dark:hover:text-purple-400"
                 href="{{ route('login') }}">
                 Já possui conta?
             </a>
