@@ -8,24 +8,15 @@
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
         <!-- Título -->
-        <div class="flex flex-col items-center gap-3 mb-6 text-center">
-            <h1 class="text-2xl font-black tracking-tight
-                       text-indigo-700 dark:text-indigo-400
-                       leading-tight">
-                Redefinir Senha
-            </h1>
-
-            <!-- Linha decorativa -->
-            <div class="w-20 h-1 rounded-full
-                        bg-gradient-to-r from-indigo-600 to-purple-500">
-            </div>
+        <div class="flex flex-col gap-3 mb-6 ">
 
             <!-- Descrição -->
-            <p class="max-w-sm text-gray-600 dark:text-gray-300
-                      text-sm md:text-base leading-relaxed">
-                Crie uma nova senha para voltar a organizar suas tarefas com
-                praticidade e segurança.
+             <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                Crie uma nova senha e
+                <span class="font-black text-indigo-700 dark:text-indigo-400">redefina seu acesso</span>
+                com segurança.
             </p>
+           
         </div>
 
         <!-- Email -->

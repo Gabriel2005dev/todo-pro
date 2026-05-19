@@ -7,24 +7,16 @@
 
         <!-- Título -->
             <div class=" flex flex-col items-center gap-3 mb-6">
-                <!-- Título -->
-                <h1 class="text-2xl font-black tracking-tight 
-                        text-indigo-500 dark:text-indigo-400
-                        leading-tight">
-                    Crie sua Conta
-                </h1>
-
-                <!-- Linha decorativa -->
-                <div class="w-20 h-1 rounded-full 
-                            bg-gradient-to-r from-indigo-600 to-purple-500">
-                </div>
-
+             
                 <!-- Descrição -->
-                <p class="max-w-sm text-gray-600 dark:text-gray-300 
+                 <p class="max-w-sm text-gray-600 dark:text-gray-300 
                         text-sm md:text-base leading-relaxed">
-                    Organize suas tarefas de forma moderna, prática e eficiente
-                    com uma experiência simples e intuitiva.
+                    Para começar a organizar suas tarefas,
+                    <span class="font-black text-indigo-500 dark:text-indigo-400">crie sua conta</span>
+                    em poucos passos.
                 </p>
+              
+                
 
             </div>
 

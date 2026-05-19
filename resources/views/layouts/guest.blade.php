@@ -19,12 +19,18 @@
 
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
 
-         <a href="/" class="rounded-lg inline-flex items-center justify-center">
-                    <x-application-logo class="" />
-                </a>
 
             <!-- CARD -->
-            <div class="w-full sm:max-w-md px-6 py-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg relative">
+             <div class="w-full sm:max-w-md px-8 py-6 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg relative">
+
+                    <div class="flex justify-center mb-6">
+                        <a href="/" class="rounded-lg">
+                            <x-application-logo class="block h-20 w-auto fill-current text-gray-800" />
+                        </a>
+                    </div>
+
+            
+           
 
                 <!-- CONTEÚDO DO FORM (LOGIN / REGISTER) -->
                 <div class="">

@@ -6,17 +6,6 @@
 
         <!-- Título -->
         <div class="flex flex-col items-center gap-3 mb-6 text-center">
-            <h1 class="text-2xl font-black tracking-tight
-                       text-indigo-700 dark:text-indigo-400
-                       leading-tight">
-                Confirmar Senha
-            </h1>
-
-            <!-- Linha decorativa -->
-            <div class="w-20 h-1 rounded-full
-                        bg-gradient-to-r from-indigo-600 to-purple-500">
-            </div>
-
             <!-- Descrição -->
             <p class="max-w-sm text-gray-600 dark:text-gray-300
                       text-sm md:text-base leading-relaxed">

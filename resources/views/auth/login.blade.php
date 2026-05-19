@@ -9,26 +9,16 @@
         @csrf
 
         <!-- Título -->
-        <div class="flex flex-col items-center gap-3 mb-6">
-
-            <!-- Título -->
-            <h1 class="text-2xl font-black tracking-tight 
-                       text-indigo-500 dark:text-indigo-400
-                       leading-tight">
-                Bem-vindo de Volta
-            </h1>
-
-            <!-- Linha decorativa -->
-            <div class="w-20 h-1 rounded-full 
-                        bg-gradient-to-r from-indigo-600 to-purple-500">
-            </div>
+        <div class="flex flex-col gap-3 mb-6">         
 
             <!-- Descrição -->
-            <p class="max-w-sm text-gray-600 dark:text-gray-300 
-                      text-sm md:text-base leading-relaxed">
-                Entre na sua conta e continue organizando suas tarefas
-                com praticidade e eficiência.
+             <p class="max-w-sm text-gray-600 dark:text-gray-300 
+                text-sm md:text-base leading-relaxed">
+                <span class="font-black text-indigo-700 dark:text-indigo-400">Entre na sua conta </span>
+                e continue suas tarefas.
             </p>
+           
+                        
         </div>
 
         <!-- Email -->
