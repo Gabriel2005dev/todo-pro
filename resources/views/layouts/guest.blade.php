@@ -29,8 +29,7 @@
                         </a>
                     </div>
 
-            
-           
+        
 
                 <!-- CONTEÚDO DO FORM (LOGIN / REGISTER) -->
                 <div class="">
