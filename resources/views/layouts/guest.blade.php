@@ -25,7 +25,7 @@
 
                     <div class="flex justify-center mb-6">
                         <a href="/" class="rounded-lg">
-                            <x-application-logo class="block h-20 w-auto fill-current text-gray-800" />
+                            <x-application-logo class="block h-16 w-auto fill-current text-gray-800" />
                         </a>
                     </div>
 
