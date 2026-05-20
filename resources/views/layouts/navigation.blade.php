@@ -90,7 +90,7 @@
 
                 <x-slot name="trigger">
                     <button class="w-full flex rounded-lg hover:bg-violet-100 transition py-3"
-                            :class="sidebarOpen ? 'px-4 gap-1' : 'justify-center px-3'">
+                            :class="sidebarOpen ? 'px-4' : 'justify-center px-3'">
 
                         <x-lucide-user-round class="w-5 h-5 text-gray-700"/>
 
@@ -126,5 +126,4 @@
 
             </x-dropdown>
         </div>
-    </div>
 </nav>
