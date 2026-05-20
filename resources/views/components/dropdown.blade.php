@@ -3,11 +3,14 @@
 @php
 $alignmentClasses = match ($align) {
     'left' => 'ltr:origin-top-left rtl:origin-top-right start-0',
-    'top' => 'origin-top',
+
+    'top' => 'origin-bottom bottom-full mb-2',
+
     default => 'ltr:origin-top-right rtl:origin-top-left end-0',
 };
 
 $width = match ($width) {
+    'full' => 'w-full',
     '48' => 'w-48',
     default => $width,
 };
@@ -25,10 +28,10 @@ $width = match ($width) {
             x-transition:leave="transition ease-in duration-75"
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
-            class="absolute z-50 mt-2 {{ $width }} rounded-md shadow-lg {{ $alignmentClasses }}"
+            class="absolute z-50 w-full {{ $width }} rounded-lg shadow-lg {{ $alignmentClasses }}"
             style="display: none;"
             @click="open = false">
-        <div class="rounded-md ring-1 ring-black ring-opacity-5 {{ $contentClasses }}">
+        <div class="rounded-lg {{ $contentClasses }}">
             {{ $content }}
         </div>
     </div>
