@@ -65,7 +65,7 @@
                     <div class="flex items-center" :class="sidebarOpen ? 'gap-3' : 'gap-0'">
                         <x-lucide-clipboard-list class="w-5 h-5" />
                         <span class="font-medium text-sm" x-show="sidebarOpen" x-transition>
-                            Tasks
+                            Tarefas
                         </span>
                     </div>
                 </a>
@@ -78,7 +78,7 @@
                     <div class="flex items-center" :class="sidebarOpen ? 'gap-3' : 'gap-0'">
                         <x-lucide-badge-plus class="w-5 h-5" />
                         <span class="font-medium text-sm" x-show="sidebarOpen" x-transition>
-                            Criar Task
+                            Criar Tarefa
                         </span>
                     </div>
                 </a>
