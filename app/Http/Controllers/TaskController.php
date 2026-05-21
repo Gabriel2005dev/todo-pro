@@ -3,160 +3,102 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TaskController extends Controller
 {
-    // LISTAR TASKS
-    public function index()
+    public function index(): View
     {
-            // Usuário logado
-    $user = auth()->user();
+        $user = auth()->user();
 
-    // Se for admin
-        if ($user->is_admin) {
+        $baseQuery = $user->is_admin
+            ? Task::with('user')
+            : $user->tasks()->with('user');
 
-            $tasks = Task::with('user')->get();
+        $tasks = (clone $baseQuery)
+            ->latest()
+            ->get();
 
-        } else {
+        $stats = [
+            'total' => (clone $baseQuery)->count(),
+            'completed' => (clone $baseQuery)->where('status', 'concluida')->count(),
+            'pending' => (clone $baseQuery)->where('status', 'a_fazer')->count(),
+            'doing' => (clone $baseQuery)->where('status', 'fazendo')->count(),
+        ];
 
-            // Usuário comum
-            $tasks = $user->tasks;
-
-        }
-
-        return view('tasks.index', compact('tasks'));
-            
+        return view('tasks.index', compact('tasks', 'stats'));
     }
 
-    // FORMULÁRIO DE CRIAÇÃO
-    public function create()
+    public function create(): RedirectResponse
     {
-        return view('tasks.create');
+        return redirect()->route('tasks.index');
     }
 
-    // SALVAR TASK
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-
             'title' => 'required|min:3|max:255',
-
             'description' => 'nullable|max:1000',
-
             'priority' => 'required|in:baixa,media,alta',
-
             'status' => 'required|in:a_fazer,fazendo,concluida',
-
-            'deadline' => 'nullable|date|after_or_equal:today',
+            'deadline' => 'nullable|date',
         ]);
 
         $validated['user_id'] = auth()->id();
 
         Task::create($validated);
 
-        return redirect()->back()->with('success', 'Task criada com sucesso!');
+        return redirect()->route('tasks.index')->with('success', 'Tarefa criada com sucesso.');
     }
 
-    // ATUALIZAR TASK
-    public function update(Request $request, Task $task)
+    public function show(Task $task): RedirectResponse
     {
-        // Segurança
-        if ($task->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorizeTaskAccess($task);
 
-        // Validação
+        return redirect()->route('tasks.index');
+    }
+
+    public function edit(Task $task): RedirectResponse
+    {
+        $this->authorizeTaskAccess($task);
+
+        return redirect()->route('tasks.index');
+    }
+
+    public function update(Request $request, Task $task): RedirectResponse
+    {
+        $this->authorizeTaskAccess($task);
+
         $validated = $request->validate([
-
             'title' => 'required|min:3|max:255',
-
             'description' => 'nullable|max:1000',
-
             'priority' => 'required|in:baixa,media,alta',
-
             'status' => 'required|in:a_fazer,fazendo,concluida',
-
-            'deadline' => 'nullable|date|after_or_equal:today',
+            'deadline' => 'nullable|date',
         ]);
-       
 
-        // Atualizar task
         $task->update($validated);
 
-        return redirect()->back()->with('success', 'Task atualizada com sucesso!');
-        }
+        return redirect()->route('tasks.index')->with('success', 'Tarefa atualizada com sucesso.');
+    }
 
-    // DELETAR TASK
-
-    public function destroy(Task $task)
+    public function destroy(Task $task): RedirectResponse
     {
-        // Segurança
-        if ($task->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorizeTaskAccess($task);
 
-        // Deletar task
         $task->delete();
 
-        return redirect()->back()->with('success', 'Task removida com sucesso!');
+        return redirect()->route('tasks.index')->with('success', 'Tarefa removida com sucesso.');
     }
 
-    public function complete(Task $task)
-    {
-        // Segurança
-        if ($task->user_id !== auth()->id()) {
-            abort(403);
-        }
-
-        // Atualizar status
-        $task->update([
-            'status' => 'concluida'
-        ]);
-
-        return redirect()->back()->with('success', 'Task concluída com sucesso!');
-    }
-
-    public function dashboard()
+    private function authorizeTaskAccess(Task $task): void
     {
         $user = auth()->user();
 
-        // Admin
-        if ($user->is_admin) {
-
-            $query = Task::query();
-
-        } else {
-
-            // Usuário comum
-            $query = $user->tasks();
+        if (! $user->is_admin && $task->user_id !== $user->id) {
+            abort(403);
         }
-
-        // Métricas
-        $totalTasks = $query->count();
-
-        $completedTasks = (clone $query)
-            ->where('status', 'concluida')
-            ->count();
-
-        $pendingTasks = (clone $query)
-            ->where('status', 'a_fazer')
-            ->count();
-
-        $doingTasks = (clone $query)
-            ->where('status', 'fazendo')
-            ->count();
-
-        $highPriorityTasks = (clone $query)
-            ->where('priority', 'alta')
-            ->count();
-
-        return view('dashboard', compact(
-            'totalTasks',
-            'completedTasks',
-            'pendingTasks',
-            'doingTasks',
-            'highPriorityTasks'
-        ));
     }
 }
