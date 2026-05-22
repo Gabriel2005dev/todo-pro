@@ -81,7 +81,7 @@
                         flex
                         items-center
                         gap-1
-                        rounded-full
+                        rounded-2xl
                         border
                         border-gray-200
                         bg-indigo-50
@@ -89,6 +89,17 @@
                         dark:border-gray-800
                         dark:bg-[#111827]
                     ">
+
+                    {{--Básicos
+rounded-none
+rounded-sm
+rounded
+rounded-md
+rounded-lg
+rounded-xl
+rounded-2xl
+rounded-3xl
+rounded-full --}}
 
                         @php
                             $tabs = [
@@ -114,9 +125,9 @@
                                 inline-flex
                                 items-center
                                 gap-2
-                                rounded-full
+                                rounded-xl
                                 boder-gray-200
-                                px-6
+                                px-5
                                 py-1
                                 text-sm
                                 font-medium
@@ -194,30 +205,30 @@
                {{-- TABELA --}}
 <div class="overflow-x-auto">
 
-    <table class="min-w-full table-fixed divide-y divide-gray-200 dark:divide-gray-800">
+    <table class="min-w-full  table-fixed divide-y divide-gray-200 dark:divide-gray-800">
 
         {{-- HEADER --}}
-        <thead class="bg-gray-50 dark:bg-gray-800/60 items-center text-center">
+        <thead class="dark:bg-gray-800/60 items-center text-center">
 
             <tr>
 
-                <th class="text-center w-[20%] px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <th class="text-center w-[20%] px-4 py-3 text-left text-sm font-semibold uppercase tracking-wider text-gray-500">
                     Tarefa
                 </th>
 
-                <th class="text-center w-[20%] px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <th class="text-center w-[20%] px-4 py-3 text-left text-sm font-semibold uppercase tracking-wider text-gray-500">
                     Status
                 </th>
 
-                <th class="text-center w-[20%] px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <th class="text-center w-[20%] px-4 py-3 text-left text-sm font-semibold uppercase tracking-wider text-gray-500">
                     Prioridade
                 </th>
 
-                <th class="text-center w-[20%] px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <th class="text-center w-[20%] px-4 py-3 text-left text-sm font-semibold uppercase tracking-wider text-gray-500">
                     Data
                 </th>
 
-                <th class="text-center w-[20%] px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                <th class="text-center w-[20%] px-4 py-3 text-left text-sm font-semibold uppercase tracking-wider text-gray-500">
                     Ações
                 </th>
 
@@ -236,13 +247,13 @@
                 >
 
                     {{-- TAREFA --}}
-                    <td class="px-4 py-0">
+                    <td class="px-5 py-3">
 
                         <div class="w-full max-w-[200px] overflow-hidden">
 
                             {{-- TITULO --}}
                             <p
-                                class="truncate whitespace-nowrap overflow-hidden text-ellipsis font-semibold text-gray-900 dark:text-gray-100"
+                                class="truncate whitespace-nowrap overflow-hidden font-semibold text-sm text-gray-900 dark:text-gray-100"
                                 title="{{ $task->title }}"
                             >
                                 {{ $task->title }}
@@ -250,7 +261,7 @@
 
                             {{-- DESCRIÇÃO --}}
                             <p
-                                class="mt-1 truncate whitespace-nowrap overflow-hidden text-ellipsis text-sm text-gray-500"
+                                class="mt-1 truncate whitespace-nowrap overflow-hidden text-ellipsis text-xs text-gray-500"
                                 title="{{ $task->description }}"
                             >
                                 {{ $task->description ?: 'Sem descrição' }}
@@ -297,47 +308,43 @@
                     </td>
 
                     {{-- AÇÕES --}}
-                    <td class="px-4 py-4 text-right">
+                    <td class="text-center">
 
-                        <div class="flex items-right text-right  gap-2  whitespace-nowrap">
+    <div class="flex justify-center items-center gap-4 whitespace-nowrap">
 
-                            {{-- VER --}}
-                            <button
-                                @click="openViewModal({{ Js::from($task) }})"
-                                class="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:bg-gray-100"
-                            >
-                                Ver
-                            </button>
+        {{-- VER --}}
+        <x-lucide-eye
+            @click="openViewModal({{ Js::from($task) }})"
+            class="h-5 w-5 text-gray-500 hover:text-gray-800 cursor-pointer transition"
+        />
 
-                            {{-- EDITAR --}}
-                            <button
-                                @click="openEditModal({{ Js::from($task) }})"
-                                class="rounded-lg border border-violet-200 px-3 py-1.5 text-xs font-semibold text-violet-700 transition hover:bg-violet-100"
-                            >
-                                Editar
-                            </button>
+        {{-- EDITAR --}}
+        <x-lucide-pencil
+            @click="openEditModal({{ Js::from($task) }})"
+            class="h-5 w-5 text-violet-500 hover:text-violet-700 cursor-pointer transition"
+        />
 
-                            {{-- EXCLUIR --}}
-                            <form
-                                method="POST"
-                                action="{{ route('tasks.destroy', $task) }}"
-                                onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');"
-                            >
-                                @csrf
-                                @method('DELETE')
+        {{-- EXCLUIR --}}
+        <form
+            method="POST"
+            action="{{ route('tasks.destroy', $task) }}"
+            onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');"
+            class="flex items-center"
+        >
+            @csrf
+            @method('DELETE')
 
-                                <button
-                                    type="submit"
-                                    class="rounded-lg border border-rose-200 px-3 py-1.5 text-xs font-semibold text-rose-700 transition hover:bg-rose-100"
-                                >
-                                    Excluir
-                                </button>
+            <x-lucide-trash-2
+                onclick="this.closest('form').submit()"
+                class="h-5 w-5 text-rose-500 hover:text-rose-700 cursor-pointer transition"
+            />
 
-                            </form>
+        </form>
 
-                        </div>
+    </div>
 
-                    </td>
+</td>
+             
 
                 </tr>
 

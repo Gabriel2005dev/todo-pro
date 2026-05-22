@@ -99,7 +99,7 @@
             <div class="text-left transition-all duration-200 overflow-hidden"
                  :class="sidebarOpen ? 'opacity-100 w-auto ml-2' : 'opacity-0 w-0 ml-0'">
 
-                <div class="font-semibold text-base text-gray-700 whitespace-nowrap">
+                <div class="font-semibold text-sm text-gray-700 whitespace-nowrap">
                     {{ Auth::user()->name }}
                 </div>
 
