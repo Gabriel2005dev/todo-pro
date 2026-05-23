@@ -1,21 +1,6 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                    Dashboard de Tarefas
-                </h2>
-
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                    Gerencie tudo em uma única página.
-                </p>
-            </div>
-        </div>
-    </x-slot>
-
-    <div class="py-8" x-data="taskDashboard()">
-
-        <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+    <div class="" x-data="taskDashboard()">
+        <div class="w-full max-w-[1400px] space-y-2 py-4 px-8 rounded-xl">
 
             {{-- ALERTAS --}}
             @if (session('success'))
@@ -28,7 +13,7 @@
                 <div class="rounded-xl border border-rose-200 bg-rose-50 p-4 text-rose-700 shadow-sm">
                     <p class="font-semibold">Corrija os campos abaixo:</p>
 
-                    <ul class="mt-2 list-inside list-disc text-sm">
+                    <ul class="mt-2 list-inside list-disc text-xs">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -36,44 +21,173 @@
                 </div>
             @endif
 
-            {{-- CARDS --}}
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {{-- CARDS NEUMORFISMO --}}
+<div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
 
-                <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
-                    <p class="text-sm text-gray-500">Total</p>
-                    <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                        {{ $stats['total'] }}
-                    </p>
-                </div>
+    {{-- TOTAL --}}
+    <div
+        class="group relative overflow-hidden rounded-xl border border-gray-300  bg-white p-4 transition-all duration-300
+        dark:bg-[#1a1a1a]"
+    >
 
-                <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
-                    <p class="text-sm text-gray-500">Concluídas</p>
-                    <p class="mt-2 text-3xl font-bold text-emerald-600">
-                        {{ $stats['completed'] }}
-                    </p>
-                </div>
+        <div
+            class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            style="
+                background: linear-gradient(
+                    135deg,
+                    rgba(255,255,255,0.35),
+                    transparent
+                );
+            "
+        ></div>
 
-                <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
-                    <p class="text-sm text-gray-500">Pendentes</p>
-                    <p class="mt-2 text-3xl font-bold text-amber-600">
-                        {{ $stats['pending'] }}
-                    </p>
-                </div>
+        <div class="relative flex items-start justify-between">
 
-                <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
-                    <p class="text-sm text-gray-500">Em andamento</p>
-                    <p class="mt-2 text-3xl font-bold text-violet-600">
-                        {{ $stats['doing'] }}
-                    </p>
-                </div>
+            <div>
+                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400">
+                    Total
+                </p>
 
+                <h3 class="mt-4 text-4xl font-black tracking-tight text-gray-900 dark:text-white">
+                    {{ $stats['total'] }}
+                </h3>
             </div>
 
+            <div
+                class="flex h-16 w-16 items-center justify-center rounded-xl bg-white
+                dark:bg-[#1f1f1f]"
+             
+            >
+                <x-lucide-layout-dashboard class="h-8 w-8 text-slate-700 dark:text-slate-300" />
+            </div>
+
+        </div>
+
+        <div class="mt-6 flex items-center gap-2">
+            <div class="h-2 w-2 rounded-full bg-slate-500"></div>
+            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                Todas as tarefas
+            </span>
+        </div>
+    </div>
+
+    {{-- CONCLUÍDAS --}}
+    <div
+        class="group relative overflow-hidden rounded-xl border border-gray-300 bg-white p-4 transition-all duration-300
+        dark:bg-[#1a1a1a]"
+    >
+
+        <div class="relative flex items-start justify-between">
+
+            <div>
+                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400">
+                    Concluídas
+                </p>
+
+                <h3 class="mt-4 text-4xl font-black tracking-tight text-emerald-600">
+                    {{ $stats['completed'] }}
+                </h3>
+            </div>
+
+            <div
+                class="flex h-16 w-16 items-center justify-center rounded-xl bg-white
+                dark:bg-[#1f1f1f]"
+           
+            >
+                <x-lucide-check-check class="h-8 w-8 text-emerald-500" />
+            </div>
+
+        </div>
+
+        <div class="mt-6 flex items-center gap-2">
+            <div class="h-2 w-2 rounded-full bg-emerald-500"></div>
+            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                Finalizadas com sucesso
+            </span>
+        </div>
+    </div>
+
+    {{-- PENDENTES --}}
+    <div
+        class="group relative overflow-hidden rounded-xl bg-white border border-gray-300  p-4 transition-all duration-300
+        dark:bg-[#1a1a1a]"
+    
+    >
+
+        <div class="relative flex items-start justify-between">
+
+            <div>
+                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400">
+                    Pendentes
+                </p>
+
+                <h3 class="mt-4 text-4xl font-black tracking-tight text-amber-500">
+                    {{ $stats['pending'] }}
+                </h3>
+            </div>
+
+            <div
+                class="flex h-16 w-16 items-center justify-center rounded-xl bg-[#f3f4f6]
+                dark:bg-[#1f1f1f]"
+               
+            >
+                <x-lucide-clock-3 class="h-8 w-8 text-amber-500" />
+            </div>
+
+        </div>
+
+        <div class="mt-6 flex items-center gap-2">
+            <div class="h-2 w-2 rounded-full bg-amber-500"></div>
+            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                Aguardando ação
+            </span>
+        </div>
+    </div>
+
+    {{-- EM ANDAMENTO --}}
+    <div
+        class="group relative overflow-hidden rounded-xl bg-white border border-gray-300 p-4 transition-all duration-300
+        dark:bg-[#1a1a1a]"
+      
+    >
+
+        <div class="relative flex items-start justify-between">
+
+            <div>
+                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400">
+                    Em andamento
+                </p>
+
+                <h3 class="mt-4 text-4xl font-black tracking-tight text-violet-500">
+                    {{ $stats['doing'] }}
+                </h3>
+            </div>
+
+            <div
+                class="flex h-16 w-16 items-center justify-center rounded-xl bg-[#f3f4f6]
+                dark:bg-[#1f1f1f]"
+           
+            >
+                <x-lucide-loader-circle class="h-8 w-8 text-violet-500 animate-spin" />
+            </div>
+
+        </div>
+
+        <div class="mt-6 flex items-center gap-2">
+            <div class="h-2 w-2 rounded-full bg-violet-500"></div>
+            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                Tarefas em progresso
+            </span>
+        </div>
+    </div>
+
+</div>
+
             {{-- TABELA --}}
-            <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
+            <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 border border-gray-300 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
 
                 {{-- TOPO --}}
-                <div class="flex flex-col gap-4 border-b border-gray-200 bg-white/80 p-4 backdrop-blur-xl dark:border-gray-800 dark:bg-[#18181b]/80 lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex flex-col gap-4 border-b border-gray-300 bg-white/80 p-4 backdrop-blur-xl dark:border-gray-800 dark:bg-[#18181b]/80 lg:flex-row lg:items-center lg:justify-between">
 
                     {{-- TABS --}}
                     <div
@@ -83,23 +197,14 @@
                         gap-1
                         rounded-2xl
                         border
-                        border-gray-200
+                        border-gray-300
                         bg-indigo-50
                         p-1
                         dark:border-gray-800
                         dark:bg-[#111827]
+                    
                     ">
 
-                    {{--Básicos
-rounded-none
-rounded-sm
-rounded
-rounded-md
-rounded-lg
-rounded-xl
-rounded-2xl
-rounded-3xl
-rounded-full --}}
 
                         @php
                             $tabs = [
@@ -117,7 +222,7 @@ rounded-full --}}
 
                                 :class="
                                     filter === '{{ $key }}'
-                                    ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
+                                    ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 shadow-sm'
                                     : 'text-gray-500 hover:text-violet-600 dark:text-gray-400 dark:hover:text-violet-400'
                                 "
 
@@ -126,13 +231,12 @@ rounded-full --}}
                                 items-center
                                 gap-2
                                 rounded-xl
-                                boder-gray-200
+                                boder-gray-00
                                 px-5
                                 py-1
                                 text-sm
                                 font-medium
-                                transition-all
-                                duration-200
+                            
                             ">
 
                                 {{ $tab[0] }}
@@ -178,8 +282,8 @@ rounded-full --}}
                             inline-flex
                             items-center
                             gap-2
-                            rounded-lg
-                            bg-violet-600
+                            rounded
+                            bg-violet-900
                             px-4
                             py-2
                             text-sm
@@ -205,7 +309,7 @@ rounded-full --}}
                {{-- TABELA --}}
 <div class="overflow-x-auto">
 
-    <table class="min-w-full  table-fixed divide-y divide-gray-200 dark:divide-gray-800">
+    <table class="min-w-full  table-fixed divide-y divide-gray-300  dark:divide-gray-800">
 
         {{-- HEADER --}}
         <thead class="dark:bg-gray-800/60 items-center text-center">
@@ -237,7 +341,7 @@ rounded-full --}}
         </thead>
 
         {{-- BODY --}}
-        <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+        <tbody class="divide-y divide-gray-300 dark:divide-gray-800">
 
             @forelse ($tasks as $task)
 

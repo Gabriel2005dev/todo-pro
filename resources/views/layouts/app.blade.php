@@ -14,17 +14,26 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased ">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+<body class="font-sans antialiased">
 
-                  <x-sidebar />
+    <div 
+        x-data="{ sidebarOpen: true }"
+        class="min-h-screen bg-gray-100 dark:bg-gray-900"
+    >
 
+        @include('layouts.navigation')
 
-            <!-- Page Content -->
-             <main class="ml-72 p-6">
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+        <x-sidebar />
+
+        <main
+            class="min-h-screen transition-all duration-300"
+            :class="sidebarOpen ? 'ml-64' : 'ml-16'"
+        >
+            {{ $slot }}
+        </main>
+
+    </div>
+
+</body>
+    
 </html>

@@ -1,15 +1,15 @@
 <div >
-    <nav x-data="{ sidebarOpen: true }"
-     class="fixed top-0 left-0  h-screen bg-[#f5f3ff] border-r border-gray-200
-            flex flex-col justify-between p-2 transition-all duration-300"
+    <nav
+     class="fixed top-0 bottom-0 bg-white rounded-xl m-4 border border-gray-300
+            flex flex-col justify-between  p-2 transition-all duration-300"
      :class="sidebarOpen ? 'w-64' : 'w-16'">
 
     {{-- TOGGLE BUTTON --}}
     <button
         @click="sidebarOpen = !sidebarOpen"
-        class="absolute top-1/2 -right-6 w-12 h-12 bg-violet-500 text-gray-700
+        class="absolute top-1/2 -right-4 w-8 h-8 bg-violet-500 text-gray-700
                rounded-full bg-white flex items-center justify-center
-               border border-gray-200 hover:scale-105 transition">
+               border border-gray-300 hover:scale-105 transition">
 
         <x-lucide-chevron-left class="w-6 h-6" x-show="sidebarOpen" />
         <x-lucide-chevron-right class="w-6 h-6" x-show="!sidebarOpen" />
@@ -33,16 +33,16 @@
                 </div>
             </a>
 
-            <div class="border-t border-gray-200 pt-1"></div>
+            <div class="border-t border-gray-300 pt-1"></div>
 
             {{-- MENU --}}
             <div class="space-y-2">
 
                 {{-- DASHBOARD --}}
                 <a href="{{ route('dashboard') }}"
-                   class="flex items-center rounded-lg transition py-3
+                   class="flex items-center rounded transition py-3
                    {{ request()->routeIs('dashboard')
-                        ? 'bg-violet-500 text-white shadow-lg'
+                        ? 'bg-violet-900 text-white shadow-lg'
                         : 'text-gray-700 hover:bg-violet-100' }}"
                    :class="sidebarOpen ? 'justify-start px-4' : 'justify-center px-2'">
 
@@ -56,9 +56,9 @@
 
                 {{-- TASKS --}}
                 <a href="{{ route('tasks.index') }}"
-                   class="flex items-center rounded-lg transition py-3
+                   class="flex items-center rounded transition py-3
                    {{ request()->routeIs('tasks.*')
-                        ? 'bg-violet-500 text-white shadow-lg'
+                        ? 'bg-violet-900 text-white shadow-lg'
                         : 'text-gray-700 hover:bg-violet-100' }}"
                    :class="sidebarOpen ? 'justify-start px-4' : 'justify-center px-2'">
 
@@ -72,7 +72,7 @@
 
                 {{-- CREATE --}}
                 <a href="{{ route('tasks.create') }}"
-                   class="flex items-center rounded-lg text-gray-700 hover:bg-violet-100 transition py-3"
+                   class="flex items-center rounded text-gray-700 hover:bg-violet-100 transition py-3"
                    :class="sidebarOpen ? 'justify-start px-4' : 'justify-center px-2'">
 
                     <div class="flex items-center" :class="sidebarOpen ? 'gap-3' : 'gap-0'">
