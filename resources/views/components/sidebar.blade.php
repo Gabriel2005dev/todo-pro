@@ -42,7 +42,7 @@
                 <a href="{{ route('dashboard') }}"
                    class="flex items-center rounded transition py-3
                    {{ request()->routeIs('dashboard')
-                        ? 'bg-violet-900 text-white shadow-lg'
+                        ? 'bg-red-700 text-white shadow-lg'
                         : 'text-gray-700 hover:bg-violet-100' }}"
                    :class="sidebarOpen ? 'justify-start px-4' : 'justify-center px-2'">
 
@@ -58,7 +58,7 @@
                 <a href="{{ route('tasks.index') }}"
                    class="flex items-center rounded transition py-3
                    {{ request()->routeIs('tasks.*')
-                        ? 'bg-violet-900 text-white shadow-lg'
+                        ? 'bg-red-700 text-white shadow-lg'
                         : 'text-gray-700 hover:bg-violet-100' }}"
                    :class="sidebarOpen ? 'justify-start px-4' : 'justify-center px-2'">
 

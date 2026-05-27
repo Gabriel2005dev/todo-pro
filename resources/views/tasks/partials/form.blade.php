@@ -1,22 +1,45 @@
 <div>
-    <div x-show="isCreateOpen || isEditOpen" x-transition class="fixed inset-0 z-40 bg-black/40"></div>
 
-    <div x-show="isCreateOpen || isEditOpen" x-transition class="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div @click.away="isCreateOpen = false; isEditOpen = false"
-            class="w-full max-w-lg rounded-lg bg-white p-6 shadow-2xl dark:bg-gray-900">
+    {{-- OVERLAY --}}
+    <div x-show="isCreateOpen || isEditOpen"
+        x-transition.opacity
+        class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm">
+    </div>
 
-            <div class="flex items-center justify-between">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white"
-                    x-text="isEditOpen ? 'Editar tarefa' : 'Nova tarefa'"></h3>
+    {{-- MODAL --}}
+    <div x-show="isCreateOpen || isEditOpen"
+        x-transition
+        class="fixed inset-0 z-50 flex items-center justify-center p-6">
 
-                <button type="button"
-                    @click="isCreateOpen = false; isEditOpen = false"
-                    class="text-gray-500 transition hover:text-red-500">
+        <div
+            class="relative w-full p-6  max-w-lg overflow-visible rounded-xl border border-white/10 bg-white shadow-2xl dark:border-gray-800 dark:bg-[#0f172a]">
+
+            {{-- HEADER --}}
+            <div
+                class="flex items-center justify-between">
+
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white"
+                        x-text="isEditOpen ? 'Editar tarefa' : 'Nova tarefa'">
+                    </h2>
+
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        Organize suas tarefas de forma profissional.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    @click="closeModal()"
+                    class="rounded-md text-gray-500 transition hover:bg-red-500/10 hover:text-red-500">
+
                     <x-lucide-x class="h-5 w-5" />
                 </button>
             </div>
 
-            <form :action="formAction" method="POST" class="mt-5 space-y-5">
+            {{-- FORM --}}
+            <form :action="formAction" method="POST" class="space-y-6 ">
+
                 @csrf
 
                 <template x-if="formMethod === 'PUT'">
@@ -25,183 +48,382 @@
 
                 {{-- TÍTULO --}}
                 <div>
-                    <label class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                    <label
+                        class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
                         Título
                     </label>
 
-                    <input x-model="form.title"
+                    <input
+                        x-model="form.title"
                         name="title"
                         type="text"
                         required
-                        class="w-full rounded-md border-gray-300 bg-white px-4 py-3 text-sm shadow-sm transition focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
+                        placeholder="Digite o título da tarefa..."
+                        class="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all">
                 </div>
 
                 {{-- DESCRIÇÃO --}}
                 <div>
-                    <label class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+
+                    <label
+                        class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
                         Descrição
                     </label>
 
-                    <div class="overflow-hidden rounded-md border border-gray-300 dark:border-gray-700">
+                    <div
+                        class="overflow-hidden rounded-md border border-gray-300 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
 
                         {{-- TOOLBAR --}}
                         <div
-                            class="flex flex-wrap items-center gap-1 border-b border-gray-200 bg-gray-50 p-2 dark:border-gray-700 dark:bg-gray-800">
+                            class="sticky top-0 z-10 flex flex-wrap items-center gap-1 border-b border-gray-200 bg-gray-50 p-1 dark:border-gray-700 dark:bg-gray-800">
 
+                            {{-- BOLD --}}
                             <button type="button"
-                                onclick="document.execCommand('bold', false, '')"
-                                class="rounded-lg p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                @click="format('bold')"
+                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <x-lucide-bold class="h-4 w-4 text-gray-700 dark:text-gray-200" />
                             </button>
 
+                            {{-- ITALIC --}}
                             <button type="button"
-                                onclick="document.execCommand('italic', false, '')"
-                                class="rounded-lg p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                @click="format('italic')"
+                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <x-lucide-italic class="h-4 w-4 text-gray-700 dark:text-gray-200" />
                             </button>
 
+                            {{-- UNDERLINE --}}
                             <button type="button"
-                                onclick="document.execCommand('underline', false, '')"
-                                class="rounded-lg p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                @click="format('underline')"
+                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <x-lucide-underline class="h-4 w-4 text-gray-700 dark:text-gray-200" />
                             </button>
 
                             <div class="mx-1 h-5 w-px bg-gray-300 dark:bg-gray-600"></div>
 
+                            {{-- LIST --}}
                             <button type="button"
-                                onclick="document.execCommand('insertUnorderedList', false, '')"
-                                class="rounded-lg p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                @click="format('insertUnorderedList')"
+                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <x-lucide-list class="h-4 w-4 text-gray-700 dark:text-gray-200" />
                             </button>
 
+                            {{-- ORDERED --}}
                             <button type="button"
-                                onclick="document.execCommand('insertOrderedList', false, '')"
-                                class="rounded-lg p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                @click="format('insertOrderedList')"
+                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <x-lucide-list-ordered class="h-4 w-4 text-gray-700 dark:text-gray-200" />
                             </button>
 
                             <div class="mx-1 h-5 w-px bg-gray-300 dark:bg-gray-600"></div>
 
+                            {{-- LEFT --}}
                             <button type="button"
-                                onclick="document.execCommand('justifyLeft', false, '')"
-                                class="rounded-lg p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                @click="format('justifyLeft')"
+                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <x-lucide-align-left class="h-4 w-4 text-gray-700 dark:text-gray-200" />
                             </button>
 
+                            {{-- CENTER --}}
                             <button type="button"
-                                onclick="document.execCommand('justifyCenter', false, '')"
-                                class="rounded-lg p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                @click="format('justifyCenter')"
+                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <x-lucide-align-center class="h-4 w-4 text-gray-700 dark:text-gray-200" />
                             </button>
 
+                            {{-- RIGHT --}}
                             <button type="button"
-                                onclick="document.execCommand('justifyRight', false, '')"
-                                class="rounded-lg p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                @click="format('justifyRight')"
+                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <x-lucide-align-right class="h-4 w-4 text-gray-700 dark:text-gray-200" />
                             </button>
                         </div>
 
                         {{-- EDITOR --}}
-                        <div contenteditable="true"
+                        <div
                             id="editor"
-                            oninput="document.getElementById('description').value = this.innerHTML"
-                            class="min-h-[250px] w-full bg-white p-4 text-sm text-gray-700 outline-none dark:bg-gray-900 dark:text-gray-200">
+                            contenteditable="true"
+                            @input="syncEditor()"
+                            class="min-h-[260px] max-h-[400px] overflow-y-auto break-all whitespace-pre-wrap p-3 text-sm leading-7 text-gray-700 outline-none dark:text-gray-200">
                         </div>
+                                            
 
-                        <textarea x-model="form.description"
+                        <textarea
+                            x-model="form.description"
                             name="description"
                             id="description"
-                            class="hidden"></textarea>
+                            class="hidden">
+                        </textarea>
                     </div>
                 </div>
 
                 {{-- CAMPOS --}}
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+               
+                    <div
+    x-show="isCreateOpen"
+    x-transition
+    class="grid grid-cols-1 gap-4 md:grid-cols-3"
+>
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                            Status
-                        </label>
+    {{-- STATUS --}}
+    <div
+        x-data="{ open: false }"
+        class="relative"
+    >
 
-                        <select x-model="form.status"
-                            name="status"
-                            class="w-full rounded-md    px-4
-                            py-2 border-gray-300 bg-white text-xs shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+        <label
+            class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+            Status
+        </label>
 
-                            <option value="a_fazer">Pendente</option>
-                            <option value="fazendo">Em andamento</option>
-                            <option value="concluida">Concluída</option>
-                        </select>
-                    </div>
+        {{-- BUTTON --}}
+        <button
+            type="button"
+            @click="open = !open"
+            class="flex w-full items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm transition-all "
+        >
 
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                            Prioridade
-                        </label>
+            <div class="flex items-center gap-2">
 
-                        <select x-model="form.priority"
-                            name="priority"
-                            class="w-full rounded-md    px-4
-                            py-2 border-gray-300 bg-white text-xs shadow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
 
-                            <option value="baixa">Baixa</option>
-                            <option value="media">Média</option>
-                            <option value="alta">Alta</option>
-                        </select>
-                    </div>
+                <span
+                    x-text="
+                        form.status === 'a_fazer'
+                        ? 'Pendente'
+                        : form.status === 'fazendo'
+                        ? 'Em andamento'
+                        : 'Concluída'
+                    "
+                ></span>
 
-                    <div>
-                        <label class="block text-xm font-semibold text-gray-700 dark:text-gray-200">
-                            Prazo
-                        </label>
+            </div>
 
-                        <input x-model="form.deadline"
-                            name="deadline"
-                            type="date"
-                            class="w-full rounded-md    px-4
-                            py-2 border-gray-300 bg-white text-xs sha dow-sm focus:border-violet-500 focus:ring-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" />
-                    </div>
-                </div>
+            <x-lucide-chevron-down
+                class="h-4 w-4 text-gray-400 transition"
+                x-bind:class="open ? 'rotate-180' : ''"
+            />
 
-                {{-- BOTÕES --}}
-                <div class="mt-6 flex items-center justify-end gap-3">
+        </button>
 
-                  <button
-                            typer="submit"
-                            class="
+        {{-- DROPDOWN --}}
+        <div
+            x-show="open"
+            x-transition
+            @click.outside="open = false"
+            class="absolute left-0 top-full z-50 mt-2 w-full rounded-md border border-gray-300 bg-white p-1 shadow-xl dark:border-gray-700 dark:bg-gray-900"
+        >
+
+            <button
+                type="button"
+                @click="form.status = 'a_fazer'; open = false"
+                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+            >
+              
+                Pendente
+            </button>
+
+            <button
+                type="button"
+                @click="form.status = 'fazendo'; open = false"
+                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+            >
+
+                Fazendo
+            </button>
+
+            <button
+                type="button"
+                @click="form.status = 'concluida'; open = false"
+                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+            >
+           
+                Concluída
+            </button>
+
+        </div>
+
+        <input
+            type="hidden"
+            name="status"
+            x-model="form.status"
+        >
+    </div>
+
+    {{-- PRIORIDADE --}}
+    <div
+        x-data="{ open: false }"
+        class="relative"
+    >
+
+        <label
+            class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+            Prioridade
+        </label>
+
+        {{-- BUTTON --}}
+        <button
+            type="button"
+            @click="open = !open"
+            class="flex w-full items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm transition-all "
+        >
+
+            <div class="flex items-center gap-2">
+
+
+
+                <span
+                    x-text="
+                        form.priority === 'baixa'
+                        ? 'Baixa'
+                        : form.priority === 'media'
+                        ? 'Média'
+                        : 'Alta'
+                    "
+                ></span>
+
+            </div>
+
+            <x-lucide-chevron-down
+                class="h-4 w-4 text-gray-400 transition"
+                x-bind:class="open ? 'rotate-180' : ''"
+            />
+
+        </button>
+
+        {{-- DROPDOWN --}}
+        <div
+            x-show="open"
+            x-transition
+            @click.outside="open = false"
+            class="absolute left-0 top-full z-50 mt-2 w-full rounded-md border border-gray-300 bg-white p-1 shadow-xl dark:border-gray-700 dark:bg-gray-900"
+        >
+
+            <button
+                type="button"
+                @click="form.priority = 'baixa'; open = false"
+                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+            >
+               
+                Baixa
+            </button>
+
+            <button
+                type="button"
+                @click="form.priority = 'media'; open = false"
+                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+            >
+               
+                Média
+            </button>
+
+            <button
+                type="button"
+                @click="form.priority = 'alta'; open = false"
+                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+            >
+               
+                Alta
+            </button>
+
+        </div>
+
+        <input
+            type="hidden"
+            name="priority"
+            x-model="form.priority"
+        >
+    </div>
+
+    {{-- PRAZO --}}
+    <div>
+
+        <label
+            class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+            Prazo
+        </label>
+
+        <input
+            x-model="form.deadline"
+            name="deadline"
+            type="date"
+            class="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm transition-all"
+        >
+    </div>
+
+</div>
+
+                {{-- FOOTER --}}
+                <div
+                    class="flex flex-col-reverse   sm:flex-row sm:justify-end">
+
+                
+
+                    <button
+                        type="submit"
+                        class="
                             ml-2
                             inline-flex
                             items-center
                             gap-2
-                            rounded-md
-                            bg-violet-900
+                            rounded
+                            bg-red-700
                             px-4
                             py-2
-                            text-xs
+                            text-sm
                             font-semibold
                             text-white
-                            shadow-lg
-                            shadow-violet-500/20
-                            transition-all
-                            duration-200
-                            hover:-translate-y-0.5
-                            hover:bg-violet-700
-                            hover:shadow-violet-500/30
-                            active:scale-95
-                        ">
-                            Adicionar tarefa 
-                            <x-lucide-plus class="h-4 w-4" />
-                        </button>
+                            shadow-lg">
+
+                        <span x-text="isEditOpen ? 'Salvar alterações' : 'Criar tarefa'"></span>
+
+                        <x-lucide-check class="h-4 w-4" />
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    function taskModal() {
+        return {
+
+            initEditor() {
+
+                this.$watch('form.description', (value) => {
+
+                    const editor = document.getElementById('editor');
+
+                    if (editor && editor.innerHTML !== value) {
+                        editor.innerHTML = value || '';
+                    }
+                });
+            },
+
+            format(command) {
+                document.execCommand(command, false, null);
+                this.syncEditor();
+            },
+
+            syncEditor() {
+
+                const editor = document.getElementById('editor');
+
+                this.form.description = editor.innerHTML;
+            },
+
+            closeModal() {
+
+                this.isCreateOpen = false;
+                this.isEditOpen = false;
+            }
+        }
+    }
+</script>
