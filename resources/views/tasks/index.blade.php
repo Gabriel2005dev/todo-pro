@@ -326,61 +326,121 @@
 
             </td>
 
-            {{-- STATUS INLINE --}}
-            <td class="px-4 py-4 text-center">
-{{-- STATUS INLINE --}}
-<select
-    @change="updateField({{ $task->id }}, 'status', $event.target.value)"
-    :disabled="loadingTaskId === {{ $task->id }}"
-    class="rounded-full border-0 px-3 py-1 text-xs font-semibold outline-none ring-0 disabled:opacity-50
-    {{ $task->status === 'a_fazer' ? 'bg-amber-100 text-amber-700' : '' }}
-    {{ $task->status === 'fazendo' ? 'bg-violet-100 text-violet-700' : '' }}
-    {{ $task->status === 'concluida' ? 'bg-emerald-100 text-emerald-700' : '' }}"
->
+            {{-- STATUS PIPELINE INLINE --}}
+            <td class="px-0 py-0 text-center">
+                <div class="flex flex-col items-center gap-1">
+                    <div role="radiogroup" aria-label="Fluxo de status" class="flex items-center justify-center">
+                        <button
+                            type="button"
+                            role="radio"
+                            aria-label="Pendente"
+                            :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 1"
+                            :disabled="loadingTaskId === {{ $task->id }}"
+                            @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'a_fazer')"
+                            class="h-5 w-5 rounded-full border-2 transition disabled:opacity-50"
+                            :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 1 ? 'border-amber-500 bg-amber-500' : 'border-slate-300 bg-transparent'"
+                        ></button>
 
-    <option value="a_fazer" {{ $task->status === 'a_fazer' ? 'selected' : '' }}>
-        Pendente
-    </option>
+                        <span class="mx-1 h-0.5 w-5 rounded bg-slate-300"></span>
 
-    <option value="fazendo" {{ $task->status === 'fazendo' ? 'selected' : '' }}>
-        Em andamento
-    </option>
+                        <button
+                            type="button"
+                            role="radio"
+                            aria-label="Em andamento"
+                            :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 2"
+                            :disabled="loadingTaskId === {{ $task->id }}"
+                            @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'fazendo')"
+                            class="h-5 w-5 rounded-full border-2 transition disabled:opacity-50"
+                            :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 2 ? 'border-violet-500 bg-violet-500' : 'border-slate-300 bg-transparent'"
+                        ></button>
 
-    <option value="concluida" {{ $task->status === 'concluida' ? 'selected' : '' }}>
-        Concluída
-    </option>
+                        <span class="mx-1 h-0.5 w-5 rounded bg-slate-300"></span>
 
-</select>
-            
+                        <button
+                            type="button"
+                            role="radio"
+                            aria-label="Concluída"
+                            :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 3"
+                            :disabled="loadingTaskId === {{ $task->id }}"
+                            @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'concluida')"
+                            class="h-5 w-5 rounded-full border-2 transition disabled:opacity-50"
+                            :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 3 ? 'border-emerald-500 bg-emerald-500' : 'border-slate-300 bg-transparent'"
+                        ></button>
+                    </div>
 
+                    <p
+                        class="text-[11px] font-semibold"
+                        :class="
+                            (statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 'a_fazer' ? 'text-amber-600' :
+                            (statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 'fazendo' ? 'text-violet-600' :
+                            'text-emerald-600'
+                        "
+                        x-text="statusLabel(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}')"
+                    ></p>
+                </div>
             </td>
 
             {{-- PRIORIDADE INLINE --}}
             <td class="px-4 py-4 text-center">
+                <div
+                    role="radiogroup"
+                    aria-label="Prioridade"
+                    class="mx-auto flex w-max items-center justify-center gap-1"
+                >
+                    {{-- 1 estrela = baixa --}}
+                    <button
+                        type="button"
+                        role="radio"
+                        aria-label="Baixa"
+                        :aria-checked="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') === 1"
+                        :disabled="loadingTaskId === {{ $task->id }}"
+                        @click="setPriority({{ $task->id }}, '{{ $task->priority }}', 1)"
+                        class="rounded-md p-0.5 "
+                    >
+                        <x-lucide-star
+                            class="h-6 w-6"
+                            x-bind:class="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') >= 1 ? 'text-amber-500' : 'text-amber-300'"
+                            x-bind:fill="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') >= 1 ? 'currentColor' : 'none'"
+                            stroke-width="1.75"
+                        />
+                    </button>
 
-               {{-- PRIORIDADE INLINE --}}
-<select
-    @change="updateField({{ $task->id }}, 'priority', $event.target.value)"
-    :disabled="loadingTaskId === {{ $task->id }}"
-    class="rounded-full border-0 px-3 py-1 text-xs font-semibold outline-none ring-0 disabled:opacity-50
-    {{ $task->priority === 'baixa' ? 'bg-sky-100 text-sky-700' : '' }}
-    {{ $task->priority === 'media' ? 'bg-orange-100 text-orange-700' : '' }}
-    {{ $task->priority === 'alta' ? 'bg-rose-100 text-rose-700' : '' }}"
->
+                    {{-- 2 estrelas = média --}}
+                    <button
+                        type="button"
+                        role="radio"
+                        aria-label="Média"
+                        :aria-checked="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') === 2"
+                        :disabled="loadingTaskId === {{ $task->id }}"
+                        @click="setPriority({{ $task->id }}, '{{ $task->priority }}', 2)"
+                        class="rounded-md p-0.5 "
+                    >
+                        <x-lucide-star
+                            class="h-6 w-"
+                            x-bind:class="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') >= 2 ? 'text-amber-500' : 'text-amber-300'"
+                            x-bind:fill="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') >= 2 ? 'currentColor' : 'none'"
+                            stroke-width="1.75"
+                        />
+                    </button>
 
-    <option value="baixa" {{ $task->priority === 'baixa' ? 'selected' : '' }}>
-        Baixa
-    </option>
-
-    <option value="media" {{ $task->priority === 'media' ? 'selected' : '' }}>
-        Média
-    </option>
-
-    <option value="alta" {{ $task->priority === 'alta' ? 'selected' : '' }}>
-        Alta
-    </option>
-
-</select>
+                    {{-- 3 estrelas = alta --}}
+                    <button
+                        type="button"
+                        role="radio"
+                        aria-label="Alta"
+                        :aria-checked="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') === 3"
+                        :disabled="loadingTaskId === {{ $task->id }}"
+                        @click="setPriority({{ $task->id }}, '{{ $task->priority }}', 3)"
+                        class="rounded-md p-0.5 "
+                    >
+                        <x-lucide-star
+                            class="h-6 w-6"
+                            x-bind:class="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') >= 3 ? 'text-amber-500' : 'text-amber-300'"
+                            x-bind:fill="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') >= 3 ? 'currentColor' : 'none'"
+                            stroke-width="1.75"
+                        />
+                    </button>
+                </div>
             </td>
 
             {{-- DATA --}}
@@ -506,6 +566,8 @@
 
             loadingTaskId: null,
             deletingTaskId: null,
+            priorityPreview: {},
+            statusPreview: {},
 
             form: {},
             formAction: '',
@@ -592,15 +654,80 @@
                         console.error(data.message);
                     }
 
+                    return data;
+
                 } catch (error) {
 
                     console.error(error);
+
+                    return { success: false };
 
                 } finally {
 
                     setTimeout(() => {
                         this.loadingTaskId = null;
                     }, 300);
+                }
+            },
+
+            // =========================
+            // PRIORIDADE (Stars)
+            // =========================
+            priorityToNumber(priority) {
+                return priority === 'baixa'
+                    ? 1
+                    : priority === 'media'
+                    ? 2
+                    : priority === 'alta'
+                    ? 3
+                    : 0;
+            },
+
+            async setPriority(taskId, serverPriority, level) {
+                const nextPriority = level === 1
+                    ? 'baixa'
+                    : level === 2
+                    ? 'media'
+                    : 'alta';
+
+                // Atualiza UI imediatamente (sem reload)
+                this.priorityPreview[taskId] = nextPriority;
+
+                const res = await this.updateField(taskId, 'priority', nextPriority);
+                if (!res?.success) {
+                    // Reverte se houver erro
+                    this.priorityPreview[taskId] = serverPriority;
+                }
+            },
+
+            // =========================
+            // STATUS PIPELINE
+            // =========================
+            statusToStep(status) {
+                return status === 'a_fazer'
+                    ? 1
+                    : status === 'fazendo'
+                    ? 2
+                    : status === 'concluida'
+                    ? 3
+                    : 1;
+            },
+
+            statusLabel(status) {
+                return status === 'a_fazer'
+                    ? ''
+                    : status === 'fazendo'
+                    ? ''
+                    : status === 'concluida'
+                    ? ''
+                    : 'Pendente';
+            },
+
+            async setStatus(taskId, serverStatus, nextStatus) {
+                this.statusPreview[taskId] = nextStatus;
+                const res = await this.updateField(taskId, 'status', nextStatus);
+                if (!res?.success) {
+                    this.statusPreview[taskId] = serverStatus;
                 }
             },
 
@@ -758,18 +885,6 @@
                 const editor = document.getElementById('editor');
 
                 this.form.description = editor.innerHTML;
-            },
-
-            // =========================
-            // STATUS LABEL
-            // =========================
-            statusLabel(status) {
-
-                return {
-                    a_fazer: 'Pendente',
-                    fazendo: 'Em andamento',
-                    concluida: 'Concluída'
-                }[status] ?? status;
             },
 
             // =========================

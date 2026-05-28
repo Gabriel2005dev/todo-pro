@@ -256,89 +256,70 @@
         >
     </div>
 
-    {{-- PRIORIDADE --}}
-    <div
-        x-data="{ open: false }"
-        class="relative"
-    >
-
-        <label
-            class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+    {{-- PRIORIDADE (Stars) --}}
+    <div class="relative">
+        <label class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
             Prioridade
         </label>
 
-        {{-- BUTTON --}}
-        <button
-            type="button"
-            @click="open = !open"
-            class="flex w-full items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm transition-all "
-        >
-
-            <div class="flex items-center gap-2">
-
-
-
-                <span
-                    x-text="
-                        form.priority === 'baixa'
-                        ? 'Baixa'
-                        : form.priority === 'media'
-                        ? 'Média'
-                        : 'Alta'
-                    "
-                ></span>
-
-            </div>
-
-            <x-lucide-chevron-down
-                class="h-4 w-4 text-gray-400 transition"
-                x-bind:class="open ? 'rotate-180' : ''"
-            />
-
-        </button>
-
-        {{-- DROPDOWN --}}
         <div
-            x-show="open"
-            x-transition
-            @click.outside="open = false"
-            class="absolute left-0 top-full z-50 mt-2 w-full rounded-md border border-gray-300 bg-white p-1 shadow-xl dark:border-gray-700 dark:bg-gray-900"
+            role="radiogroup"
+            aria-label="Prioridade da tarefa"
+            class="flex items-center gap-1"
         >
-
+            {{-- Baixa = 1 estrela --}}
             <button
                 type="button"
-                @click="form.priority = 'baixa'; open = false"
-                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+                role="radio"
+                aria-label="Baixa"
+                :aria-checked="form.priority === 'baixa'"
+                @click="form.priority = 'baixa'"
+                class="rounded-md p-0.5 transition hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-               
-                Baixa
+                <x-lucide-star
+                    class="h-6 w-6"
+                    x-bind:class="(form.priority === 'baixa' || form.priority === 'media' || form.priority === 'alta') ? 'text-amber-500' : 'text-amber-300'"
+                    x-bind:fill="(form.priority === 'baixa' || form.priority === 'media' || form.priority === 'alta') ? 'currentColor' : 'none'"
+                    stroke-width="1.75"
+                />
             </button>
 
+            {{-- Média = 2 estrelas --}}
             <button
                 type="button"
-                @click="form.priority = 'media'; open = false"
-                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+                role="radio"
+                aria-label="Média"
+                :aria-checked="form.priority === 'media'"
+                @click="form.priority = 'media'"
+                class="rounded-md p-0.5 transition hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-               
-                Média
+                <x-lucide-star
+                    class="h-6 w-6"
+                    x-bind:class="(form.priority === 'media' || form.priority === 'alta') ? 'text-amber-500' : 'text-amber-300'"
+                    x-bind:fill="(form.priority === 'media' || form.priority === 'alta') ? 'currentColor' : 'none'"
+                    stroke-width="1.75"
+                />
             </button>
 
+            {{-- Alta = 3 estrelas --}}
             <button
                 type="button"
-                @click="form.priority = 'alta'; open = false"
-                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+                role="radio"
+                aria-label="Alta"
+                :aria-checked="form.priority === 'alta'"
+                @click="form.priority = 'alta'"
+                class="rounded-md p-0.5 transition hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-               
-                Alta
+                <x-lucide-star
+                    class="h-6 w-6"
+                    x-bind:class="(form.priority === 'alta') ? 'text-amber-500' : 'text-amber-300'"
+                    x-bind:fill="(form.priority === 'alta') ? 'currentColor' : 'none'"
+                    stroke-width="1.75"
+                />
             </button>
-
         </div>
 
-        <input
-            type="hidden"
-            name="priority"
-            x-model="form.priority"
-        >
+        <input type="hidden" name="priority" x-model="form.priority">
     </div>
 
     {{-- PRAZO --}}
