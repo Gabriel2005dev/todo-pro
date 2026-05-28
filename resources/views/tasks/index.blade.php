@@ -201,74 +201,11 @@
                 {{-- TOPO --}}
                 <div class="flex flex-col gap-4 border-b border-gray-300 bg-white/80 p-4 backdrop-blur-xl dark:border-gray-800 dark:bg-[#18181b]/80 lg:flex-row lg:items-center lg:justify-between">
 
-                    {{-- TABS --}}
-                    <div
-                        class="
-                        flex
-                        items-center
-                        gap-1
-                        rounded-2xl
-                        border
-                        border-gray-300
-                        bg-indigo-50
-                        p-1
-                        dark:border-gray-800
-                        dark:bg-[#111827]
+             
                     
-                    ">
-
-
-                        @php
-                            $tabs = [
-                                'todas' => ['Todas', $stats['total']],
-                                'a_fazer' => ['Pendente', $stats['pending']],
-                                'fazendo' => ['Em andamento', $stats['doing']],
-                                'concluida' => ['Concluída', $stats['completed']],
-                            ];
-                        @endphp
-
-                        @foreach ($tabs as $key => $tab)
-
-                            <button
-                                @click="filter='{{ $key }}'"
-
-                                :class="
-                                    filter === '{{ $key }}'
-                                    ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 shadow-sm'
-                                    : 'text-gray-500 hover:text-violet-600 dark:text-gray-400 dark:hover:text-violet-400'
-                                "
-
-                                class="
-                                inline-flex
-                                items-center
-                                gap-2
-                                rounded-xl
-                                px-5
-                                py-1
-                                text-sm
-                                font-medium
-                            
-                            ">
-
-                                {{ $tab[0] }}
-
-                                <span
-                                    class="
-                                    rounded-full
-                                    font-semibold
-                                    text-gray-900
-                                ">
-                                    {{ $tab[1] }}
-                                </span>
-
-                            </button>
-
-                        @endforeach
-
-                    </div>
 
                     {{-- AÇÕES --}}
-                    <div class="flex items-center gap-5 text-gray-500">
+                    <div class="flex items-center  gap-5 text-gray-500 ml-auto">
 
                         {{-- PESQUISA --}}
                         <div class="cursor-pointer transition-all duration-200 hover:scale-110 hover:text-violet-600">
