@@ -34,166 +34,7 @@
             @endif
 
             {{-- CARDS NEUMORFISMO --}}
-<div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
 
-    {{-- TOTAL --}}
-    <div
-        class="group relative overflow-hidden rounded-xl border border-gray-300  bg-white p-4 transition-all duration-300
-        dark:bg-[#1a1a1a]"
-    >
-
-        <div
-            class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            style="
-                background: linear-gradient(
-                    135deg,
-                    rgba(255,255,255,0.35),
-                    transparent
-                );
-            "
-        ></div>
-
-        <div class="relative flex items-start justify-between">
-
-            <div>
-                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400">
-                    Total
-                </p>
-
-                <h3 class="mt-4 text-4xl font-black tracking-tight text-gray-900 dark:text-white">
-                    {{ $stats['total'] }}
-                </h3>
-            </div>
-
-            <div
-                class="flex h-16 w-16 items-center justify-center rounded-xl bg-white
-                dark:bg-[#1f1f1f]"
-             
-            >
-                <x-lucide-layout-dashboard class="h-8 w-8 text-slate-700 dark:text-slate-300" />
-            </div>
-
-        </div>
-
-        <div class="mt-6 flex items-center gap-2">
-            <div class="h-2 w-2 rounded-full bg-slate-500"></div>
-            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                Todas as tarefas
-            </span>
-        </div>
-    </div>
-
-    {{-- CONCLUÍDAS --}}
-    <div
-        class="group relative overflow-hidden rounded-xl border border-gray-300 bg-white p-4 transition-all duration-300
-        dark:bg-[#1a1a1a]"
-    >
-
-        <div class="relative flex items-start justify-between">
-
-            <div>
-                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400">
-                    Concluídas
-                </p>
-
-                <h3 class="mt-4 text-4xl font-black tracking-tight text-emerald-600">
-                    {{ $stats['completed'] }}
-                </h3>
-            </div>
-
-            <div
-                class="flex h-16 w-16 items-center justify-center rounded-xl bg-white
-                dark:bg-[#1f1f1f]"
-           
-            >
-                <x-lucide-check-check class="h-8 w-8 text-emerald-500" />
-            </div>
-
-        </div>
-
-        <div class="mt-6 flex items-center gap-2">
-            <div class="h-2 w-2 rounded-full bg-emerald-500"></div>
-            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                Finalizadas com sucesso
-            </span>
-        </div>
-    </div>
-
-    {{-- PENDENTES --}}
-    <div
-        class="group relative overflow-hidden rounded-xl bg-white border border-gray-300  p-4 transition-all duration-300
-        dark:bg-[#1a1a1a]"
-    
-    >
-
-        <div class="relative flex items-start justify-between">
-
-            <div>
-                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400">
-                    Pendentes
-                </p>
-
-                <h3 class="mt-4 text-4xl font-black tracking-tight text-amber-500">
-                    {{ $stats['pending'] }}
-                </h3>
-            </div>
-
-            <div
-                class="flex h-16 w-16 items-center justify-center rounded-xl bg-[#f3f4f6]
-                dark:bg-[#1f1f1f]"
-               
-            >
-                <x-lucide-clock-3 class="h-8 w-8 text-amber-500" />
-            </div>
-
-        </div>
-
-        <div class="mt-6 flex items-center gap-2">
-            <div class="h-2 w-2 rounded-full bg-amber-500"></div>
-            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                Aguardando ação
-            </span>
-        </div>
-    </div>
-
-    {{-- EM ANDAMENTO --}}
-    <div
-        class="group relative overflow-hidden rounded-xl bg-white border border-gray-300 p-4 transition-all duration-300
-        dark:bg-[#1a1a1a]"
-      
-    >
-
-        <div class="relative flex items-start justify-between">
-
-            <div>
-                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400">
-                    Em andamento
-                </p>
-
-                <h3 class="mt-4 text-4xl font-black tracking-tight text-violet-500">
-                    {{ $stats['doing'] }}
-                </h3>
-            </div>
-
-            <div
-                class="flex h-16 w-16 items-center justify-center rounded-xl bg-[#f3f4f6]
-                dark:bg-[#1f1f1f]"
-           
-            >
-                <x-lucide-loader-circle class="h-8 w-8 text-violet-500 animate-spin" />
-            </div>
-
-        </div>
-
-        <div class="mt-6 flex items-center gap-2">
-            <div class="h-2 w-2 rounded-full bg-violet-500"></div>
-            <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                Tarefas em progresso
-            </span>
-        </div>
-    </div>
-
-</div>
 
             {{-- TABELA --}}
             <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 border border-gray-300 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
@@ -205,48 +46,166 @@
                     
 
                     {{-- AÇÕES --}}
-                    <div class="flex items-center  gap-5 text-gray-500 ml-auto">
+                    {{-- AÇÕES --}}
+<div class="flex items-center gap-5 text-gray-500 ml-auto relative">
 
-                        {{-- PESQUISA --}}
-                        <div class="cursor-pointer transition-all duration-200 hover:scale-110 hover:text-violet-600">
-                            <x-lucide-search class="h-5 w-5" />
-                        </div>
+    {{-- PESQUISA --}}
+   {{-- PESQUISA --}}
+<div class="relative">
 
-                        {{-- FILTRO --}}
-                        <div class="cursor-pointer transition-all duration-200 hover:scale-110 hover:text-violet-600">
-                            <x-lucide-filter class="h-5 w-5" />
-                        </div>
+    <x-lucide-search
+        class="absolute left-2 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500"
+    />
 
-                        {{-- ORDENAR --}}
-                        <div class="cursor-pointer transition-all duration-200 hover:scale-110 hover:text-violet-600">
-                            <x-lucide-arrow-up-down class="h-5 w-5" />
-                        </div>
+    {{-- PESQUISA --}}
+<div class="relative">
 
-                        {{-- NOVA TASK --}}
-                        <button
-                            @click="openCreateModal()"
-                            class="
-                            ml-2
-                            inline-flex
-                            items-center
-                            gap-2
-                            rounded
-                            bg-red-700
-                            px-4
-                            py-2
-                            text-sm
-                            font-semibold
-                            text-white
-                            shadow-lg
-                          
-                        
-                       
-                        ">
-                            Nova Tarefa
-                            <x-lucide-plus class="h-4 w-4" />
-                        </button>
+    <x-lucide-search
+        class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+    />
 
-                    </div>
+<div class="relative">
+
+    {{-- ÍCONE --}}
+    <x-lucide-search
+        class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500"
+    />
+
+    <input
+        type="text"
+        x-model="search"
+        placeholder="Pesquisar tarefa..."
+        class="
+            w-72
+            rounded-lg
+            border
+            border-gray-300
+            bg-white
+            py-2.5
+            pl-12
+            pr-4
+            text-sm
+            text-gray-700
+            focus:border-gray-500
+            focus:ring-0.5
+            focus:ring-gray-500
+            focus:outline-none
+            
+           
+            
+        "
+    >
+
+</div>
+
+</div>
+
+</div>
+
+    {{-- FILTRO --}}
+    <div class="relative">
+
+        <button
+            @click="showFilter = !showFilter"
+            class="cursor-pointer transition-all duration-200 hover:scale-110 hover:text-violet-600"
+        >
+            <x-lucide-filter class="h-5 w-5" />
+        </button>
+
+        {{-- DROPDOWN --}}
+        <div
+            x-show="showFilter"
+            x-transition
+            @click.outside="showFilter = false"
+            class="absolute right-0 top-10 z-50 w-52 rounded-xl border border-gray-200 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
+        >
+
+            <button
+                @click="filter = 'todas'; showFilter = false"
+                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-violet-50 dark:hover:bg-gray-800"
+            >
+                Todas
+            </button>
+
+            <button
+                @click="filter = 'a_fazer'; showFilter = false"
+                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-amber-50 dark:hover:bg-gray-800"
+            >
+                Pendentes
+            </button>
+
+            <button
+                @click="filter = 'fazendo'; showFilter = false"
+                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-violet-50 dark:hover:bg-gray-800"
+            >
+                Fazendo
+            </button>
+
+            <button
+                @click="filter = 'concluida'; showFilter = false"
+                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-emerald-50 dark:hover:bg-gray-800"
+            >
+                Concluídas
+            </button>
+
+        </div>
+
+    </div>
+
+    {{-- ORDENAR --}}
+    <div class="relative">
+
+        <button
+            @click="showSort = !showSort"
+            class="cursor-pointer transition-all duration-200 hover:scale-110 hover:text-violet-600"
+        >
+            <x-lucide-arrow-up-down class="h-5 w-5" />
+        </button>
+
+        {{-- DROPDOWN --}}
+        <div
+            x-show="showSort"
+            x-transition
+            @click.outside="showSort = false"
+            class="absolute right-0 top-10 z-50 w-56 rounded-xl border border-gray-200 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
+        >
+
+            <button
+                @click="sortBy = 'recent'; sortTasks(); showSort = false"
+                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+                Mais recentes
+            </button>
+
+            <button
+                @click="sortBy = 'old'; sortTasks(); showSort = false"
+                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+                Mais antigas
+            </button>
+
+            <button
+                @click="sortBy = 'priority'; sortTasks(); showSort = false"
+                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+                Prioridade
+            </button>
+
+        </div>
+
+    </div>
+
+    {{-- NOVA TASK --}}
+    <button
+        @click="openCreateModal()"
+        class="ml-2 inline-flex items-center gap-2 rounded bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow-lg"
+    >
+        Nova Tarefa
+        <x-lucide-plus class="h-4 w-4" />
+    </button>
+
+</div>
+                 
 
                 </div>
 
@@ -291,7 +250,15 @@
 
        <tr
     id="task-row-{{ $task->id }}"
-    x-show="filter === 'todas' || filter === '{{ $task->status }}'"
+   x-show="
+(
+    filter === 'todas' ||
+    filter === '{{ $task->status }}'
+)
+&&
+'{{ strtolower($task->title) }}'
+.includes(search.toLowerCase())
+"
     class="transition hover:bg-violet-50/50 dark:hover:bg-violet-900/10"
 >
 
@@ -327,58 +294,81 @@
             </td>
 
             {{-- STATUS PIPELINE INLINE --}}
-            <td class="px-0 py-0 text-center">
-                <div class="flex flex-col items-center gap-1">
-                    <div role="radiogroup" aria-label="Fluxo de status" class="flex items-center justify-center">
-                        <button
-                            type="button"
-                            role="radio"
-                            aria-label="Pendente"
-                            :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 1"
-                            :disabled="loadingTaskId === {{ $task->id }}"
-                            @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'a_fazer')"
-                            class="h-5 w-5 rounded-full border-2 transition disabled:opacity-50"
-                            :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 1 ? 'border-amber-500 bg-amber-500' : 'border-slate-300 bg-transparent'"
-                        ></button>
+            {{-- STATUS PIPELINE INLINE --}}
+<td class="px-0 py-0 text-center">
+    <div class="flex flex-col items-center gap-1">
 
-                        <span class="mx-1 h-0.5 w-5 rounded bg-slate-300"></span>
+        <div
+            role="radiogroup"
+            aria-label="Fluxo de status"
+            class="flex items-center justify-center"
+        >
 
-                        <button
-                            type="button"
-                            role="radio"
-                            aria-label="Em andamento"
-                            :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 2"
-                            :disabled="loadingTaskId === {{ $task->id }}"
-                            @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'fazendo')"
-                            class="h-5 w-5 rounded-full border-2 transition disabled:opacity-50"
-                            :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 2 ? 'border-violet-500 bg-violet-500' : 'border-slate-300 bg-transparent'"
-                        ></button>
+            {{-- A FAZER --}}
+            <button
+                type="button"
+                role="radio"
+                aria-label="Pendente"
+                :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 1"
+                :disabled="loadingTaskId === {{ $task->id }}"
+                @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'a_fazer')"
+                class="flex h-7 w-7 items-center justify-center rounded-full border-2 transition disabled:opacity-50"
+                :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 1
+                    ? 'border-amber-500 bg-amber-500 text-white shadow-lg shadow-amber-500/30'
+                    : 'border-slate-300 bg-white text-slate-400'"
+            >
 
-                        <span class="mx-1 h-0.5 w-5 rounded bg-slate-300"></span>
+                <x-lucide-x class="h-3.5 w-3.5" />
 
-                        <button
-                            type="button"
-                            role="radio"
-                            aria-label="Concluída"
-                            :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 3"
-                            :disabled="loadingTaskId === {{ $task->id }}"
-                            @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'concluida')"
-                            class="h-5 w-5 rounded-full border-2 transition disabled:opacity-50"
-                            :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 3 ? 'border-emerald-500 bg-emerald-500' : 'border-slate-300 bg-transparent'"
-                        ></button>
-                    </div>
+            </button>
 
-                    <p
-                        class="text-[11px] font-semibold"
-                        :class="
-                            (statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 'a_fazer' ? 'text-amber-600' :
-                            (statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 'fazendo' ? 'text-violet-600' :
-                            'text-emerald-600'
-                        "
-                        x-text="statusLabel(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}')"
-                    ></p>
-                </div>
-            </td>
+            {{-- LINHA --}}
+            <span class="mx-1 h-0.5 w-6 rounded bg-slate-300"></span>
+
+            {{-- FAZENDO --}}
+            <button
+                type="button"
+                role="radio"
+                aria-label="Em andamento"
+                :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 2"
+                :disabled="loadingTaskId === {{ $task->id }}"
+                @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'fazendo')"
+                class="flex h-7 w-7 items-center justify-center rounded-full border-2 transition disabled:opacity-50"
+                :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 2
+                    ? 'border-violet-500 bg-violet-500 text-white shadow-lg shadow-violet-500/30'
+                    : 'border-slate-300 bg-white text-slate-400'"
+            >
+
+                <x-lucide-arrow-right class="h-3.5 w-3.5" />
+
+            </button>
+
+            {{-- LINHA --}}
+            <span class="mx-1 h-0.5 w-6 rounded bg-slate-300"></span>
+
+            {{-- CONCLUÍDA --}}
+            <button
+                type="button"
+                role="radio"
+                aria-label="Concluída"
+                :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 3"
+                :disabled="loadingTaskId === {{ $task->id }}"
+                @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'concluida')"
+                class="flex h-7 w-7 items-center justify-center rounded-full border-2 transition disabled:opacity-50"
+                :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 3
+                    ? 'border-emerald-500 bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
+                    : 'border-slate-300 bg-white text-slate-400'"
+            >
+
+                <x-lucide-check class="h-3.5 w-3.5" />
+
+            </button>
+
+        </div>
+
+    </div>
+</td>
+      
 
             {{-- PRIORIDADE INLINE --}}
             <td class="px-4 py-4 text-center">
@@ -416,7 +406,7 @@
                         class="rounded-md p-0.5 "
                     >
                         <x-lucide-star
-                            class="h-6 w-"
+                            class="h-6 w-6"
                             x-bind:class="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') >= 2 ? 'text-amber-500' : 'text-amber-300'"
                             x-bind:fill="priorityToNumber(priorityPreview[{{ $task->id }}] ?? '{{ $task->priority }}') >= 2 ? 'currentColor' : 'none'"
                             stroke-width="1.75"
@@ -458,16 +448,11 @@
 
                 <div class="flex justify-center items-center gap-4 whitespace-nowrap">
 
-                    {{-- VER --}}
-                    <x-lucide-eye
-                        @click="openViewModal({{ Js::from($task) }})"
-                        class="h-5 w-5 text-gray-500 hover:text-gray-800 cursor-pointer transition"
-                    />
 
                     {{-- EDITAR COMPLETO --}}
-                    <x-lucide-pencil
+                    <x-lucide-message-square-text
                         @click="openEditModal({{ Js::from($task) }})"
-                        class="h-5 w-5 text-violet-500 hover:text-violet-700 cursor-pointer transition"
+                        class="h-5 w-5 text-gray-500 hover:text-gray-900 cursor-pointer transition"
                     />
 
                     {{-- EXCLUIR --}}
@@ -568,6 +553,13 @@
             deletingTaskId: null,
             priorityPreview: {},
             statusPreview: {},
+
+            showSearch: false,
+showFilter: false,
+showSort: false,
+
+search: '',
+sortBy: '',
 
             form: {},
             formAction: '',
