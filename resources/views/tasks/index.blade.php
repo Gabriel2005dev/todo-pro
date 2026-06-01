@@ -434,14 +434,27 @@
             </td>
 
             {{-- DATA --}}
-            <td class="px-4 py-4 text-center text-sm text-gray-600 dark:text-gray-300 whitespace-nowrap">
+          <td class="px-4 py-4 text-center">
 
-                {{ $task->deadline
-                    ? \Carbon\Carbon::parse($task->deadline)->format('d/m/Y')
-                    : 'Sem prazo'
-                }}
+    <input
+        type="date"
+        value="{{ $task->deadline }}"
+        @change="updateField({{ $task->id }}, 'deadline', $event.target.value)"
+        :disabled="loadingTaskId === {{ $task->id }}"
+        class="
+            rounded-lg
+            border
+            border-gray-300
+            bg-white
+            px-2
+            py-1
+            text-sm
+            focus:border-violet-500
+            focus:ring-0
+        "
+    >
 
-            </td>
+</td>
 
             {{-- AÇÕES --}}
             <td class="text-center">

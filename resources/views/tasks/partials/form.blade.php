@@ -146,15 +146,19 @@
                             </button>
                         </div>
 
-                        {{-- EDITOR --}}
                        {{-- EDITOR --}}
 <div
     id="editor"
     contenteditable="true"
     @input="syncEditor()"
-    @keydown.stop
     spellcheck="false"
-    class="min-h-[260px] max-h-[400px] overflow-y-auto break-all whitespace-pre-wrap p-3 text-sm leading-7 text-gray-700 outline-none dark:text-gray-200">
+    autocomplete="off"
+    autocorrect="off"
+    autocapitalize="off"
+    data-gramm="false"
+    data-gramm_editor="false"
+    data-enable-grammarly="false"
+    class="min-h-[260px] max-h-[400px] overflow-y-auto break-words whitespace-pre-wrap p-3 text-sm leading-7 text-gray-700 outline-none dark:text-gray-200">
 </div>
 
 <textarea
@@ -388,45 +392,60 @@
 </div>
 
 <script>
-    function taskModal() {
-        return {
+function taskModal() {
+    return {
 
-            initEditor() {
+        initEditor() {
 
-                this.$watch('form.description', (value) => {
-
-                    const editor = document.getElementById('editor');
-
-                    if (editor && editor.innerHTML !== value) {
-                        editor.innerHTML = value || '';
-                    }
-                });
-            },
-            format(command) {
-
-    const editor = document.getElementById('editor');
-
-    editor.focus();
-
-    document.execCommand(command, false, null);
-
-    this.syncEditor();
-},
-
-           
-
-            syncEditor() {
+            this.$watch('form.description', (value) => {
 
                 const editor = document.getElementById('editor');
 
-                this.form.description = editor.innerHTML;
-            },
+                if (!editor) return;
 
-            closeModal() {
+                // Evita recriar o HTML a cada tecla digitada
+                if (
+                    document.activeElement !== editor &&
+                    editor.innerHTML !== (value || '')
+                ) {
+                    editor.innerHTML = value || '';
+                }
+            });
+        },
 
-                this.isCreateOpen = false;
-                this.isEditOpen = false;
+        format(command) {
+
+            const editor = document.getElementById('editor');
+
+            if (!editor) return;
+
+            editor.focus();
+
+            document.execCommand(command, false, null);
+
+            this.syncEditor();
+        },
+
+        syncEditor() {
+
+            const editor = document.getElementById('editor');
+
+            if (!editor) return;
+
+            this.form.description = editor.innerHTML;
+        },
+
+        closeModal() {
+
+            const editor = document.getElementById('editor');
+
+            if (editor) {
+                editor.innerHTML = '';
             }
+
+            this.isCreateOpen = false;
+            this.isEditOpen = false;
         }
     }
+}
 </script>
