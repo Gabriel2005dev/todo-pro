@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <div class="w-full max-w-[1400px] space-y-2 py-4 px-8 rounded-xl">
+    <div class="w-full max-w-[1400px] space-y-2 py-4  px-8 rounded-xl">
 
         {{-- ALERTA SUCCESS --}}
         @if (session('success'))
@@ -34,7 +34,7 @@
         @endif
 
         {{-- CARD PRINCIPAL --}}
-        <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 border border-gray-300 ring-gray-100">
+        <div class="overflow-hidden   rounded-xl bg-white shadow-sm border border-gray-300 ring-gray-100">
 
             {{-- HEADER --}}
             <div
@@ -43,12 +43,10 @@
                 <div>
 
                     <p class="text-xs font-semibold uppercase tracking-wider text-red-700">
-                        Administração
+                        Administração dos usuários 
                     </p>
 
-                    <h1 class="mt-1 text-2xl font-bold text-gray-900">
-                        Usuários
-                    </h1>
+
 
                     <p class="mt-1 text-sm text-gray-500">
                         Gerencie contas, permissões e usuários do sistema.
@@ -108,22 +106,40 @@
                                 class="transition hover:bg-red-50/50"
                             >
 
-                                {{-- USUÁRIO --}}
-                                <td class="px-5 py-4">
+                          {{-- USUÁRIO --}}
+<td class="px-5 py-4">
 
-                                    <div class="flex flex-col">
+    <div class="flex items-center gap-3">
 
-                                        <span class="font-semibold text-gray-900">
-                                            {{ $user->name }}
-                                        </span>
+        {{-- AVATAR --}}
+        @if($user->avatar)
+            <img
+                src="{{ asset('storage/' . $user->avatar) }}"
+                alt="{{ $user->name }}"
+                class="w-10 h-10 rounded-full object-cover border border-gray-300"
+            >
+        @else
+            <div class="w-10 h-10 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center">
+                <x-lucide-user-round class="w-5 h-5 text-gray-500" />
+            </div>
+        @endif
 
-                                        <span class="text-xs text-gray-500">
-                                            {{ $user->email }}
-                                        </span>
+        {{-- DADOS --}}
+        <div class="flex flex-col">
 
-                                    </div>
+            <span class="font-semibold text-gray-900">
+                {{ $user->name }}
+            </span>
 
-                                </td>
+            <span class="text-xs text-gray-500">
+                {{ $user->email }}
+            </span>
+
+        </div>
+
+    </div>
+
+</td>
 
                                 {{-- PERFIL --}}
                                 <td class="px-4 py-4 text-center">
@@ -224,12 +240,6 @@
 
             </div>
 
-            {{-- PAGINAÇÃO --}}
-            <div class="border-t border-gray-300 px-6 py-4">
-
-                {{ $users->links() }}
-
-            </div>
 
         </div>
 

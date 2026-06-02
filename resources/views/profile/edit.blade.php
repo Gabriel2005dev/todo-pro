@@ -30,7 +30,7 @@
                                 alt="Avatar"
                                 class="w-32 h-32 rounded-full object-cover  shadow-lg">
                         @else
-                            <div class="w-32 h-32 rounded-full bg-gray-100 border-4 border-red-700 flex items-center justify-center shadow-lg">
+                            <div class="w-32 h-32 rounded-full bg-gray-100  flex items-center justify-center shadow-lg">
                                 <x-lucide-user-round class="w-14 h-14 text-gray-500" />
                             </div>
                         @endif
