@@ -59,7 +59,7 @@
                    class="flex items-center rounded transition py-3
                    {{ request()->routeIs('tasks.*')
                         ? 'bg-red-700 text-white shadow-lg'
-                        : 'text-gray-700 hover:bg-violet-100' }}"
+                        : 'text-gray-700 hover:bg-red-100' }}"
                    :class="sidebarOpen ? 'justify-start px-4' : 'justify-center px-2'">
 
                     <div class="flex items-center" :class="sidebarOpen ? 'gap-3' : 'gap-0'">

@@ -6,20 +6,20 @@
     </x-slot>
 
     <div>
-       <div class="max-w-[1400px] px-8 py-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+       <div class="max-w-[1400px]  px-8 py-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
+            <div class="p-4 sm:p-8 border border-gray-300 bg-white dark:bg-gray-800 sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.update-profile-information-form')
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="p-4 sm:p-8 bg-white border border-gray-300 dark:bg-gray-800 sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.update-password-form')
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="p-4 sm:p-8 bg-white border border-gray-300 dark:bg-gray-800 sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.delete-user-form')
                 </div>
