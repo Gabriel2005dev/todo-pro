@@ -136,7 +136,8 @@ class TaskController extends Controller
         $allowedFields = [
             'title',
             'status',
-            'priority'
+            'priority',
+            'deadline'
         ];
 
         if (!in_array($request->field, $allowedFields)) {

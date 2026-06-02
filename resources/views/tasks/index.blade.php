@@ -37,19 +37,17 @@
 
 
             {{-- TABELA --}}
-            <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 border border-gray-300 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
+            <div class="overflow-visible rounded-xl bg-white shadow-sm ring-1 border border-gray-300 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
 
                 {{-- TOPO --}}
-                <div class="flex flex-col gap-4 border-b border-gray-300 bg-white/80 p-4 backdrop-blur-xl dark:border-gray-800 dark:bg-[#18181b]/80 lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex flex-col rounded-t-xl gap-4 border-b border-gray-300 bg-white/80 p-4 backdrop-blur-xl dark:border-gray-800 dark:bg-[#18181b]/80 lg:flex-row lg:items-center lg:justify-between">
 
              
                     
 
                     {{-- AÇÕES --}}
-                    {{-- AÇÕES --}}
-<div class="flex items-center gap-5 text-gray-500 ml-auto relative">
+<div class="flex  items-center gap-5 text-gray-500 ml-auto relative">
 
-    {{-- PESQUISA --}}
    {{-- PESQUISA --}}
 <div class="relative">
 
@@ -102,103 +100,187 @@
 
 </div>
 
-    {{-- FILTRO --}}
-    <div class="relative">
+{{-- FILTRO --}}
+<div class="relative">
 
+    {{-- BOTÃO --}}
+    <button
+        @click="showFilter = !showFilter"
+        class="relative cursor-pointer transition-all duration-200 hover:scale-110 hover:text-gray-950"
+    >
+
+        <x-lucide-filter class="h-5 w-5" />
+
+        {{-- INDICADOR DE FILTRO ATIVO --}}
+        <template x-if="filters.status !== 'todas'">
+            <span
+                class="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-gray-600"
+            ></span>
+        </template>
+
+    </button>
+
+    {{-- DROPDOWN --}}
+    <div
+        x-show="showFilter"
+        x-transition
+        @click.outside="showFilter = false"
+        class="fixed right-0 top-10 z-50 w-56 rounded-xl border border-gray-300 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
+    >
+
+        {{-- TODAS --}}
         <button
-            @click="showFilter = !showFilter"
-            class="cursor-pointer transition-all duration-200 hover:scale-110 hover:text-violet-600"
+            @click="
+                filters.status = 'todas';
+                showFilter = false
+            "
+            :class="filters.status === 'todas'
+                ? 'bg-violet-100 text-violet-700'
+                : ''"
+            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-violet-50"
         >
-            <x-lucide-filter class="h-5 w-5" />
+            Todas
         </button>
 
-        {{-- DROPDOWN --}}
-        <div
-            x-show="showFilter"
-            x-transition
-            @click.outside="showFilter = false"
-            class="absolute right-0 top-10 z-50 w-52 rounded-xl border border-gray-200 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
+        {{-- PENDENTES --}}
+        <button
+            @click="
+                filters.status = 'a_fazer';
+                showFilter = false
+            "
+            :class="filters.status === 'a_fazer'
+                ? 'bg-amber-100 text-amber-700'
+                : ''"
+            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-amber-50"
         >
+            Pendentes
+        </button>
 
-            <button
-                @click="filter = 'todas'; showFilter = false"
-                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-violet-50 dark:hover:bg-gray-800"
-            >
-                Todas
-            </button>
+        {{-- FAZENDO --}}
+        <button
+            @click="
+                filters.status = 'fazendo';
+                showFilter = false
+            "
+            :class="filters.status === 'fazendo'
+                ? 'bg-violet-100 text-violet-700'
+                : ''"
+            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-violet-50"
+        >
+            Fazendo
+        </button>
 
-            <button
-                @click="filter = 'a_fazer'; showFilter = false"
-                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-amber-50 dark:hover:bg-gray-800"
-            >
-                Pendentes
-            </button>
+        {{-- CONCLUÍDAS --}}
+        <button
+            @click="
+                filters.status = 'concluida';
+                showFilter = false
+            "
+            :class="filters.status === 'concluida'
+                ? 'bg-emerald-100 text-emerald-700'
+                : ''"
+            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-emerald-50"
+        >
+            Concluídas
+        </button>
 
-            <button
-                @click="filter = 'fazendo'; showFilter = false"
-                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-violet-50 dark:hover:bg-gray-800"
-            >
-                Fazendo
-            </button>
+        <hr class="my-2">
 
-            <button
-                @click="filter = 'concluida'; showFilter = false"
-                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-emerald-50 dark:hover:bg-gray-800"
-            >
-                Concluídas
-            </button>
-
-        </div>
+        {{-- LIMPAR --}}
+        <button
+            @click="
+                filters.status = 'todas';
+                showFilter = false
+            "
+            class="flex w-full items-center rounded-xs px-3 py-2 text-sm text-rose-600 transition hover:bg-rose-50"
+        >
+            Limpar filtro
+        </button>
 
     </div>
 
-    {{-- ORDENAR --}}
-    <div class="relative">
+</div> 
 
+{{-- ORDENAR --}}
+<div class="relative">
+
+    {{-- BOTÃO --}}
+    <button
+        @click="showSort = !showSort"
+        class="relative cursor-pointer transition-all duration-200 hover:scale-110 hover:text-gray-950"
+    >
+
+        <x-lucide-arrow-up-down class="h-5 w-5" />
+
+        {{-- INDICADOR --}}
+        <template x-if="sortBy !== ''">
+            <span
+                class="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-violet-600"
+            ></span>
+        </template>
+
+    </button>
+
+    {{-- DROPDOWN --}}
+    <div
+        x-show="showSort"
+        x-transition
+        @click.outside="showSort = false"
+        class="fixed right-0 top-10 z-50 w-56 rounded-xl border border-gray-300 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
+    >
+
+        {{-- MAIS RECENTES --}}
         <button
-            @click="showSort = !showSort"
-            class="cursor-pointer transition-all duration-200 hover:scale-110 hover:text-violet-600"
+            @click="
+                sortBy = 'recent';
+                sortTasks();
+                showSort = false
+            "
+            :class="sortBy === 'recent'
+                ? 'bg-violet-100 text-violet-700'
+                : ''"
+            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-violet-50"
         >
-            <x-lucide-arrow-up-down class="h-5 w-5" />
+            Mais recentes
         </button>
 
-        {{-- DROPDOWN --}}
-        <div
-            x-show="showSort"
-            x-transition
-            @click.outside="showSort = false"
-            class="absolute right-0 top-10 z-50 w-56 rounded-xl border border-gray-200 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
+        {{-- MAIS ANTIGAS --}}
+        <button
+            @click="
+                sortBy = 'old';
+                sortTasks();
+                showSort = false
+            "
+            :class="sortBy === 'old'
+                ? 'bg-violet-100 text-violet-700'
+                : ''"
+            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-violet-50"
         >
+            Mais antigas
+        </button>
 
-            <button
-                @click="sortBy = 'recent'; sortTasks(); showSort = false"
-                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-                Mais recentes
-            </button>
+        <hr class="my-2">
 
-            <button
-                @click="sortBy = 'old'; sortTasks(); showSort = false"
-                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-                Mais antigas
-            </button>
-
-            <button
-                @click="sortBy = 'priority'; sortTasks(); showSort = false"
-                class="flex w-full items-center rounded-lg px-3 py-2 text-sm transition hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-                Prioridade
-            </button>
-
-        </div>
+        {{-- LIMPAR --}}
+        <button
+            @click="
+                sortBy = '';
+                location.reload();
+            "
+            class="flex w-full items-center rounded-xs px-3 py-2 text-sm text-rose-600 transition hover:bg-rose-50"
+        >
+            Limpar ordenação
+        </button>
 
     </div>
+
+</div>
+
 
     {{-- NOVA TASK --}}
     <button
         @click="openCreateModal()"
-        class="ml-2 inline-flex items-center gap-2 rounded bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow-lg"
+        class="ml-2 inline-flex items-center gap-2 rounded bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-red-600"
     >
         Nova Tarefa
         <x-lucide-plus class="h-4 w-4" />
@@ -250,16 +332,14 @@
 
        <tr
     id="task-row-{{ $task->id }}"
-   x-show="
-(
-    filter === 'todas' ||
-    filter === '{{ $task->status }}'
-)
+    x-show="
+matchesFilter('{{ $task->status }}')
 &&
 '{{ strtolower($task->title) }}'
 .includes(search.toLowerCase())
 "
-    class="transition hover:bg-violet-50/50 dark:hover:bg-violet-900/10"
+
+    class="transition hover:bg-red-50/50 dark:hover:bg-red-900/10"
 >
 
             {{-- TAREFA --}}
@@ -554,7 +634,9 @@
     function taskDashboard() {
         return {
 
-            filter: 'todas',
+            filters: {
+                status: 'todas'
+            },
 
             isCreateOpen: false,
             isEditOpen: false,
@@ -573,6 +655,37 @@ showSort: false,
 
 search: '',
 sortBy: '',
+sortTasks() {
+
+    const tbody = document.querySelector('tbody');
+
+    const rows = Array.from(
+        tbody.querySelectorAll('tr[id^="task-row-"]')
+    );
+
+    rows.sort((a, b) => {
+
+        const dateA = new Date(
+            a.querySelector('input[type="date"]').value || '1900-01-01'
+        );
+
+        const dateB = new Date(
+            b.querySelector('input[type="date"]').value || '1900-01-01'
+        );
+
+        if (this.sortBy === 'recent') {
+            return dateB - dateA;
+        }
+
+        if (this.sortBy === 'old') {
+            return dateA - dateB;
+        }
+
+        return 0;
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+},
 
             form: {},
             formAction: '',
@@ -673,6 +786,14 @@ sortBy: '',
                         this.loadingTaskId = null;
                     }, 300);
                 }
+            },
+
+            matchesFilter(taskStatus) {
+
+                return (
+                    this.filters.status === 'todas' ||
+                    this.filters.status === taskStatus
+                );
             },
 
             // =========================

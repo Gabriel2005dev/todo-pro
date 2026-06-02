@@ -59,7 +59,8 @@
                         type="text"
                         required
                         placeholder="Digite o título da tarefa..."
-                        class="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm shadow-sm outline-none transition-all">
+                        class="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm outline-none transition-all focus:border-gray-700 focus:ring-0 focus:shadow-none"
+                      >
                 </div>
 
                 {{-- DESCRIÇÃO --}}
@@ -79,6 +80,8 @@
 
                             {{-- BOLD --}}
                             <button type="button"
+                                @mousedown.prevent
+
                                 @click="format('bold')"
                                 class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
@@ -87,6 +90,8 @@
 
                             {{-- ITALIC --}}
                             <button type="button"
+                                @mousedown.prevent
+
                                 @click="format('italic')"
                                 class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
@@ -95,34 +100,23 @@
 
                             {{-- UNDERLINE --}}
                             <button type="button"
+                                @mousedown.prevent
+
                                 @click="format('underline')"
                                 class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
                                 <x-lucide-underline class="h-4 w-4 text-gray-700 dark:text-gray-200" />
                             </button>
 
-                            <div class="mx-1 h-5 w-px bg-gray-300 dark:bg-gray-600"></div>
+                            
 
-                            {{-- LIST --}}
-                            <button type="button"
-                                @click="format('insertUnorderedList')"
-                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
-
-                                <x-lucide-list class="h-4 w-4 text-gray-700 dark:text-gray-200" />
-                            </button>
-
-                            {{-- ORDERED --}}
-                            <button type="button"
-                                @click="format('insertOrderedList')"
-                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
-
-                                <x-lucide-list-ordered class="h-4 w-4 text-gray-700 dark:text-gray-200" />
-                            </button>
-
+                           
                             <div class="mx-1 h-5 w-px bg-gray-300 dark:bg-gray-600"></div>
 
                             {{-- LEFT --}}
                             <button type="button"
+                                @mousedown.prevent
+
                                 @click="format('justifyLeft')"
                                 class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
@@ -131,6 +125,8 @@
 
                             {{-- CENTER --}}
                             <button type="button"
+                                @mousedown.prevent
+
                                 @click="format('justifyCenter')"
                                 class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
@@ -139,6 +135,8 @@
 
                             {{-- RIGHT --}}
                             <button type="button"
+                                @mousedown.prevent
+
                                 @click="format('justifyRight')"
                                 class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
 
@@ -150,7 +148,8 @@
 <div
     id="editor"
     contenteditable="true"
-    @input="syncEditor()"
+    @keyup="syncEditor()"
+    @paste="handlePaste($event)"
     spellcheck="false"
     autocomplete="off"
     autocorrect="off"
@@ -374,6 +373,7 @@
                             gap-2
                             rounded
                             bg-red-700
+                            hover:bg-red-600
                             px-4
                             py-2
                             text-sm
@@ -395,15 +395,16 @@
 function taskModal() {
     return {
 
+
+
         initEditor() {
 
             this.$watch('form.description', (value) => {
 
                 const editor = document.getElementById('editor');
-
                 if (!editor) return;
 
-                // Evita recriar o HTML a cada tecla digitada
+                // evita sobrescrever enquanto o usuário digita
                 if (
                     document.activeElement !== editor &&
                     editor.innerHTML !== (value || '')
@@ -415,24 +416,70 @@ function taskModal() {
 
         format(command) {
 
-            const editor = document.getElementById('editor');
+    const editor = document.getElementById('editor');
+    if (!editor) return;
 
-            if (!editor) return;
+    editor.focus();
 
-            editor.focus();
+    try {
+        document.execCommand(command, false, null);
+    } catch (e) {
+        console.error(e);
+    }
 
-            document.execCommand(command, false, null);
+    // ativa visualmente o botão
+    this.active[command] = !this.active[command];
 
-            this.syncEditor();
-        },
+    this.syncEditor();
+},
 
-        syncEditor() {
 
-            const editor = document.getElementById('editor');
+active: {
+    bold: false,
+    italic: false,
+    underline: false,
+    insertUnorderedList: false,
+    insertOrderedList: false,
+    justifyLeft: false,
+    justifyCenter: false,
+    justifyRight: false,
+},
 
-            if (!editor) return;
+        handlePaste(event) {
 
-            this.form.description = editor.innerHTML;
+            const items = event.clipboardData?.items;
+            if (!items) return;
+
+            for (const item of items) {
+
+                // IMAGEM COLADA
+                if (item.type.startsWith('image/')) {
+
+                    event.preventDefault();
+
+                    const file = item.getAsFile();
+                    const reader = new FileReader();
+
+                    reader.onload = (e) => {
+
+                        const editor = document.getElementById('editor');
+                        if (!editor) return;
+
+                        const img = document.createElement('img');
+
+                        img.src = e.target.result;
+
+                        img.className =
+                            'my-3 max-w-[320px] rounded-lg border border-gray-200 shadow-sm';
+
+                        editor.appendChild(img);
+
+                        this.syncEditor();
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
         },
 
         closeModal() {
@@ -448,4 +495,4 @@ function taskModal() {
         }
     }
 }
-</script>
+</script>>

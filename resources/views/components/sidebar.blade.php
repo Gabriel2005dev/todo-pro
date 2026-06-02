@@ -7,7 +7,7 @@
     {{-- TOGGLE BUTTON --}}
     <button
         @click="sidebarOpen = !sidebarOpen"
-        class="absolute top-1/2 -right-4 w-8 h-8 bg-violet-500 text-gray-700
+        class="absolute top-1/2 -right-4 w-8 h-8 bg-white text-gray-700
                rounded-full bg-white flex items-center justify-center
                border border-gray-300 hover:scale-105 transition">
 
@@ -43,7 +43,7 @@
                    class="flex items-center rounded transition py-3
                    {{ request()->routeIs('dashboard')
                         ? 'bg-red-700 text-white shadow-lg'
-                        : 'text-gray-700 hover:bg-violet-100' }}"
+                        : 'text-gray-700 hover:bg-red-100' }}"
                    :class="sidebarOpen ? 'justify-start px-4' : 'justify-center px-2'">
 
                     <div class="flex items-center" :class="sidebarOpen ? 'gap-3' : 'gap-0'">
@@ -69,20 +69,6 @@
                         </span>
                     </div>
                 </a>
-
-                {{-- CREATE --}}
-                <a href="{{ route('tasks.create') }}"
-                   class="flex items-center rounded text-gray-700 hover:bg-violet-100 transition py-3"
-                   :class="sidebarOpen ? 'justify-start px-4' : 'justify-center px-2'">
-
-                    <div class="flex items-center" :class="sidebarOpen ? 'gap-3' : 'gap-0'">
-                        <x-lucide-badge-plus class="w-5 h-5" />
-                        <span class="font-medium text-sm" x-show="sidebarOpen" x-transition>
-                            Criar Tarefa
-                        </span>
-                    </div>
-                </a>
-
             </div>
         </div>
 
@@ -91,7 +77,7 @@
     <x-slot name="trigger">
         <button
             @click="sidebarOpen = true"
-            class="w-full flex rounded-lg hover:bg-violet-100 transition py-3"
+            class="w-full flex rounded-md hover:bg-gray-200 transition py-3"
             :class="sidebarOpen ? 'px-4' : 'justify-center px-3'">
 
             <x-lucide-user-round class="w-5 h-5 text-gray-700"/>
