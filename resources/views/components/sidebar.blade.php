@@ -71,47 +71,68 @@
                 </a>
             </div>
         </div>
-
         {{-- RODAPÉ --}}
-          <x-dropdown align="top" width="64" class="z-50">
+<x-dropdown align="top" width="64" class="z-50">
     <x-slot name="trigger">
-        <button
-            @click="sidebarOpen = true"
-            class="w-full flex rounded-md hover:bg-gray-200 transition py-3"
-            :class="sidebarOpen ? 'px-4' : 'justify-center px-3'">
+  <button
+    @click="sidebarOpen = true"
+    class="w-full flex items-center rounded-lg hover:bg-gray-100 transition py-3 overflow-hidden"
+    :class="sidebarOpen ? 'px-3 gap-3' : 'justify-center px-1'">
 
-            <x-lucide-user-round class="w-5 h-5 text-gray-700"/>
+            {{-- AVATAR --}}
+            @if(Auth::user()->avatar)
+                <img
+                    src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                    alt="Avatar"
+                    class="w-8 h-8 rounded-full object-cover border border-gray-300 flex-shrink-0"
+                >
+            @else
+                <div class="w-8 h-8 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center flex-shrink-0">
+                    <x-lucide-user-round class="w-5 h-5 text-gray-600"/>
+                </div>
+            @endif
 
-            <div class="text-left transition-all duration-200 overflow-hidden"
-                 :class="sidebarOpen ? 'opacity-100 w-auto ml-2' : 'opacity-0 w-0 ml-0'">
+            {{-- NOME --}}
+            <div
+                class="text-left transition-all duration-200 overflow-hidden"
+                :class="sidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'">
 
-                <div class="font-semibold text-sm text-gray-700 whitespace-nowrap">
+                <div class="font-semibold text-sm text-gray-800 whitespace-nowrap">
                     {{ Auth::user()->name }}
                 </div>
 
+                <div class="text-xs text-gray-500 whitespace-nowrap">
+                    {{ Auth::user()->email }}
+                </div>
             </div>
         </button>
     </x-slot>
-                <x-slot name="content">
-                    <x-dropdown-link class="flex items-center gap-3"
-                                     :href="route('profile.edit')">
-                        <x-lucide-user-round-pen class="w-5 h-5 text-gray-700" />
-                        {{ __('Editar Perfil') }}
-                    </x-dropdown-link>
 
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
+    <x-slot name="content">
+        <x-dropdown-link
+            class="flex items-center gap-3"
+            :href="route('profile.edit')">
 
-                        <x-dropdown-link class="flex items-center gap-3"
-                                         :href="route('logout')"
-                                         onclick="event.preventDefault(); this.closest('form').submit();">
-                            <x-lucide-log-out class="w-5 h-5 text-gray-700" />
-                            {{ __('Sair') }}
-                        </x-dropdown-link>
-                    </form>
-                </x-slot>
+            <x-lucide-user-round-pen class="w-5 h-5 text-gray-700" />
+            {{ __('Editar Perfil') }}
+        </x-dropdown-link>
 
-            </x-dropdown>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+
+            <x-dropdown-link
+                class="flex items-center gap-3"
+                :href="route('logout')"
+                onclick="event.preventDefault(); this.closest('form').submit();">
+
+                <x-lucide-log-out class="w-5 h-5 text-gray-700" />
+                {{ __('Sair') }}
+            </x-dropdown-link>
+        </form>
+    </x-slot>
+</x-dropdown>
+
+       
         </div>
 </nav>
     <!-- Do what you can, with what you have, where you are. - Theodore Roosevelt -->

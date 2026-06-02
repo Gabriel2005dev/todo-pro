@@ -84,9 +84,9 @@
             pr-4
             text-sm
             text-gray-700
-            focus:border-gray-500
+            focus:border-red-700
             focus:ring-0.5
-            focus:ring-gray-500
+            focus:ring-red-700
             focus:outline-none
             
            
@@ -125,7 +125,7 @@
         x-show="showFilter"
         x-transition
         @click.outside="showFilter = false"
-        class="fixed right-0 top-10 z-50 w-56 rounded-xl border border-gray-300 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
+        class="fixed right-0 top-10 z-50 w-56 rounded-md border border-gray-300 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
     >
 
         {{-- TODAS --}}
@@ -226,7 +226,7 @@
         x-show="showSort"
         x-transition
         @click.outside="showSort = false"
-        class="fixed right-0 top-10 z-50 w-56 rounded-xl border border-gray-300 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
+        class="fixed right-0 top-10 z-50 w-56 rounded-md border border-gray-300 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
     >
 
         {{-- MAIS RECENTES --}}

@@ -37,6 +37,26 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+    public function updateAvatar(Request $request): RedirectResponse
+{
+    $request->validate([
+        'avatar' => ['required', 'image', 'max:2048'],
+    ]);
+
+    $user = $request->user();
+
+    if ($request->hasFile('avatar')) {
+
+        $path = $request->file('avatar')
+            ->store('avatars', 'public');
+
+        $user->avatar = $path;
+        $user->save();
+    }
+
+    return Redirect::route('profile.edit');
+}
+
     /**
      * Delete the user's account.
      */
