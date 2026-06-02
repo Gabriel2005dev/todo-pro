@@ -69,6 +69,31 @@
                         </span>
                     </div>
                 </a>
+
+                  @if (Auth::user()->is_admin)
+                    {{-- ADMIN USERS --}}
+                    <a href="{{ route('admin.users.index') }}"
+                       class="flex items-center rounded transition py-3
+                       {{ request()->routeIs('admin.users.*')
+                            ? 'bg-red-700 text-white shadow-lg'
+                            : 'text-gray-700 hover:bg-red-100' }}"
+                       :class="sidebarOpen ? 'justify-start px-4' : 'justify-center px-2'">
+
+                        <div class="flex items-center" :class="sidebarOpen ? 'gap-3' : 'gap-0'">
+                            <x-lucide-users-round class="w-5 h-5" />
+                            <span class="font-medium text-sm" x-show="sidebarOpen" x-transition>
+                                Usuários
+                            </span>
+                        </div>
+                    </a>
+                @endif
+
+
+
+
+
+
+
             </div>
         </div>
         {{-- RODAPÉ --}}

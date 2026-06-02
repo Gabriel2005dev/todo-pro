@@ -13,9 +13,8 @@ class TaskController extends Controller
     {
         $user = auth()->user();
 
-        $baseQuery = $user->is_admin
-            ? Task::with('user')
-            : $user->tasks()->with('user');
+        $baseQuery = $user->tasks()->with('user');
+
 
         $tasks = (clone $baseQuery)
             ->latest()
@@ -208,7 +207,7 @@ class TaskController extends Controller
     {
         $user = auth()->user();
 
-        if (! $user->is_admin && $task->user_id !== $user->id) {
+        if ($task->user_id !== $user->id) {      
             abort(403);
         }
     }
