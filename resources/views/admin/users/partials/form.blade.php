@@ -160,6 +160,65 @@
                     </div>
                 </div>
 
+                {{-- PERFIL PIPELINE INLINE --}}
+<div class="space-y-2">
+
+    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+        Perfil de acesso
+    </label>
+
+    <div class="flex flex-col items-center gap-2">
+
+        <div
+            role="radiogroup"
+            aria-label="Tipo de usuário"
+            class="flex items-center justify-center"
+        >
+
+            {{-- USUÁRIO --}}
+            <button
+                type="button"
+                role="radio"
+                aria-label="Usuário"
+                :aria-checked="form.is_admin == 0"
+                @click="form.is_admin = 0"
+                class="flex h-8 w-8 items-center justify-center rounded-full border-2 transition"
+                :class="form.is_admin == 0
+                    ? 'border-slate-400 bg-slate-900 text-white shadow-lg shadow-slate-500/30'
+                    : 'border-slate-300 bg-white text-slate-400 dark:bg-gray-950 dark:border-gray-700'"
+            >
+                <x-lucide-user class="h-4 w-4" />
+            </button>
+
+            {{-- LINHA --}}
+            <span class="mx-2 h-0.5 w-8 rounded bg-slate-300 dark:bg-gray-700"></span>
+
+            {{-- ADMIN --}}
+            <button
+                type="button"
+                role="radio"
+                aria-label="Administrador"
+                :aria-checked="form.is_admin == 1"
+                @click="form.is_admin = 1"
+                class="flex h-8 w-8 items-center justify-center rounded-full border-2 transition"
+                :class="form.is_admin == 1
+                    ? 'border-red-600 bg-red-700 text-white shadow-lg shadow-red-500/30'
+                    : 'border-slate-300 bg-white text-slate-400 dark:bg-gray-950 dark:border-gray-700'"
+            >
+                <x-lucide-shield class="h-4 w-4" />
+            </button>
+
+        </div>
+
+        {{-- LABELS --}}
+        <div class="flex w-full justify-center gap-10 text-xs text-gray-500 dark:text-gray-400">
+            <span>Usuário</span>
+            <span>Admin</span>
+        </div>
+
+    </div>
+</div>
+
               
                 
 
