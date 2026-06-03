@@ -373,7 +373,7 @@ matchesFilter('{{ $task->status }}')
 
             </td>
 
-            {{-- STATUS PIPELINE INLINE --}}
+         
             {{-- STATUS PIPELINE INLINE --}}
 <td class="px-0 py-0 text-center">
     <div class="flex flex-col items-center gap-1">
