@@ -84,18 +84,28 @@
                                     </div>
                                 </td>
 
+                        
                                 {{-- ROLE --}}
-                                <td class="text-center">
-                                    @if($user->is_admin)
-                                        <span class="text-xs bg-red-100 text-red-700 px-3 py-1 rounded-full">
-                                            Admin
-                                        </span>
-                                    @else
-                                        <span class="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
-                                            Usuário
-                                        </span>
-                                    @endif
-                                </td>
+<td class="text-center">
+    <div class="flex justify-center">
+
+        <div
+            class="flex h-9 w-9 items-center justify-center rounded-full border-2
+            {{ $user->is_admin
+                ? 'bg-red-700 text-white border-red-700'
+                : 'bg-blue-700 text-white border-blue-700' }}"
+            title="{{ $user->is_admin ? 'Administrador' : 'Usuário' }}"
+        >
+            @if($user->is_admin)
+                <x-lucide-shield class="h-5 w-5" />
+            @else
+                <x-lucide-user class="h-5 w-5" />
+            @endif
+        </div>
+
+    </div>
+</td>
+
 
                                 {{-- TASKS --}}
                                 <td class="text-center">
@@ -110,28 +120,38 @@
                                 </td>
 
                                 {{-- ACTIONS --}}
-                                <td class="text-center">
-                                    <div class="flex justify-center gap-4">
+                               <td class="text-center">
+    <div class="flex items-center justify-center gap-4">
 
-                                        {{-- EDIT --}}
-                                        <button @click="openEditModal({{ Js::from($user) }})">
-                                            <x-lucide-square-pen class="w-5 h-5 text-gray-500 hover:text-gray-900"/>
-                                        </button>
+        {{-- EDIT --}}
+        <button
+            type="button"
+            @click="openEditModal({{ Js::from($user) }})"
+            class="flex items-center justify-center"
+        >
+            <x-lucide-pencil class="w-5 h-5 text-gray-500 hover:text-gray-900"/>
+        </button>
 
-                                        {{-- DELETE --}}
-                                        <form method="POST"
-                                              action="{{ route('admin.users.destroy', $user) }}"
-                                              onsubmit="return confirm('Excluir usuário?')">
-                                            @csrf
-                                            @method('DELETE')
+        {{-- DELETE --}}
+        <form
+            method="POST"
+            action="{{ route('admin.users.destroy', $user) }}"
+            onsubmit="return confirm('Excluir usuário?')"
+            class="flex items-center justify-center"
+        >
+            @csrf
+            @method('DELETE')
 
-                                            <button>
-                                                <x-lucide-trash-2 class="w-5 h-5 text-rose-500 hover:text-rose-700"/>
-                                            </button>
-                                        </form>
+            <button
+                type="submit"
+                class="flex items-center justify-center"
+            >
+                <x-lucide-trash-2 class="w-5 h-5 text-rose-500 hover:text-rose-700"/>
+            </button>
+        </form>
 
-                                    </div>
-                                </td>
+    </div>
+</td>
 
                             </tr>
                         @endforeach
@@ -161,7 +181,7 @@
                     email: '',
                     password: '',
                     password_confirmation: '',
-                    is_admin: false,
+                    is_admin: 0,
                 },
 
                 openEditModal(user) {
@@ -171,7 +191,7 @@
                         email: user.email,
                         password: '',
                         password_confirmation: '',
-                        is_admin: user.is_admin,
+                        is_admin: user.is_admin ? 1 : 0, 
                     };
 
                     this.isEditOpen = true;

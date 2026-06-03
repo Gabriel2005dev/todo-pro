@@ -11,7 +11,7 @@
          x-transition
          class="fixed inset-0 z-50 flex items-center justify-center p-6">
 
-        <div class="relative w-full max-w-lg overflow-visible rounded-2xl border border-white/10 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-[#0f172a]">
+        <div class="relative w-full max-w-lg overflow-visible rounded-xl border border-white/10 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-[#0f172a]">
 
         
 
@@ -48,10 +48,12 @@
 
                 @csrf
                 @method('PUT')
-                
+
+                <input type="hidden" name="is_admin" :value="form.is_admin ? 1 : 0">
+
+            
 
                 
-
                 {{-- NOME --}}
                 <div class="space-y-1.5">
                     <label class="text-sm font-semibold text-gray-700 dark:text-gray-200">Nome</label>
@@ -96,69 +98,70 @@
 
                 {{-- SENHA --}}
                 <div class="space-y-1.5">
-                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                        Nova senha
-                    </label>
+    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+        Nova senha
+    </label>
 
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                            <x-lucide-lock class="h-5 w-5" />
-                        </span>
+    <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+            <x-lucide-lock class="h-5 w-5" />
+        </span>
 
-                        <input :type="showPassword ? 'text' : 'password'"
-                               name="password"
-                              class="mt-1 block w-full pl-12 rounded border-gray-300 dark:border-gray-700 
-                           dark:bg-gray-900 dark:text-white
-                           focus:ring-red-700 focus:border-red-700">
+        <input
+            x-model="form.password"
+            :type="showPassword ? 'text' : 'password'"
+            name="password"
+            autocomplete="new-password"
+            class="mt-1 block w-full pl-12 rounded border-gray-300 dark:border-gray-700
+                   dark:bg-gray-900 dark:text-white
+                   focus:ring-red-700 focus:border-red-700">
 
-                        <button type="button"
-                                @click="showPassword = !showPassword"
-                                class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-300">
+        <button type="button"
+                @click="showPassword = !showPassword"
+                class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-300">
 
-                            <template x-if="!showPassword">
-                                <x-lucide-eye class="h-5 w-5" />
-                            </template>
+                <template x-if="showPassword">
+    <x-lucide-eye class="h-5 w-5" />
+</template>
 
-                            <template x-if="showPassword">
-                                <x-lucide-eye-off class="h-5 w-5" />
-                            </template>
+<template x-if="!showPassword">
+    <x-lucide-eye-off class="h-5 w-5" />
+</template>
 
-                        </button>
-                    </div>
-                </div>
+           
 
-                {{-- CONFIRMAÇÃO --}}
-                <div class="space-y-1.5">
-                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                        Confirmar senha
-                    </label>
+        </button>
+    </div>
+</div>
 
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                            <x-lucide-shield-check class="h-5 w-5" />
-                        </span>
+<div class="space-y-1.5">
+    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+        Confirmar senha
+    </label>
 
-                        <input :type="showConfirm ? 'text' : 'password'"
-                               name="password_confirmation"
-                              class="mt-1 block w-full pl-12 rounded border-gray-300 dark:border-gray-700 
-                           dark:bg-gray-900 dark:text-white
-                           focus:ring-red-700 focus:border-red-700">
+    <div class="relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+            <x-lucide-shield-check class="h-5 w-5" />
+        </span>
 
-                        <button type="button"
-                                @click="showConfirm = !showConfirm"
-                                class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-300">
+        <input
+            x-model="form.password_confirmation"
+            :type="showConfirm ? 'text' : 'password'"
+            name="password_confirmation"
+            autocomplete="new-password"
+            class="mt-1 block w-full pl-12 rounded border-gray-300 dark:border-gray-700
+                   dark:bg-gray-900 dark:text-white
+                   focus:ring-red-700 focus:border-red-700">
 
-                            <template x-if="!showConfirm">
-                                <x-lucide-eye class="h-5 w-5" />
-                            </template>
+        <button type="button"
+                @click="showConfirm = !showConfirm"
+                class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-300">
 
-                            <template x-if="showConfirm">
-                                <x-lucide-eye-off class="h-5 w-5" />
-                            </template>
+        </button>
+    </div>
+</div>
+               
 
-                        </button>
-                    </div>
-                </div>
 
                 {{-- PERFIL PIPELINE INLINE --}}
 <div class="space-y-2">
@@ -182,12 +185,12 @@
                 aria-label="Usuário"
                 :aria-checked="form.is_admin == 0"
                 @click="form.is_admin = 0"
-                class="flex h-8 w-8 items-center justify-center rounded-full border-2 transition"
+                class="flex h-10 w-10 items-center justify-center rounded-full border-2 transition"
                 :class="form.is_admin == 0
-                    ? 'border-slate-400 bg-slate-900 text-white shadow-lg shadow-slate-500/30'
-                    : 'border-slate-300 bg-white text-slate-400 dark:bg-gray-950 dark:border-gray-700'"
+                    ? 'bg-blue-700 text-white'
+                    : 'bg-white text-slate-400 dark:bg-gray-950 dark:border-gray-700'"
             >
-                <x-lucide-user class="h-4 w-4" />
+                <x-lucide-user class="h-5 w-5" />
             </button>
 
             {{-- LINHA --}}
@@ -200,12 +203,12 @@
                 aria-label="Administrador"
                 :aria-checked="form.is_admin == 1"
                 @click="form.is_admin = 1"
-                class="flex h-8 w-8 items-center justify-center rounded-full border-2 transition"
+                class="flex h-10 w-10 items-center justify-center rounded-full border-2 transition"
                 :class="form.is_admin == 1
-                    ? 'border-red-600 bg-red-700 text-white shadow-lg shadow-red-500/30'
-                    : 'border-slate-300 bg-white text-slate-400 dark:bg-gray-950 dark:border-gray-700'"
+                    ? ' bg-red-700 text-white'
+                    : ' bg-white text-slate-400 dark:bg-gray-950 dark:border-gray-700'"
             >
-                <x-lucide-shield class="h-4 w-4" />
+                <x-lucide-shield class="h-5 w-5" />
             </button>
 
         </div>

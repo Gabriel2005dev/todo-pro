@@ -518,7 +518,7 @@ matchesFilter('{{ $task->status }}')
 
     <input
         type="date"
-        value="{{ $task->deadline }}"
+        value="{{ $task->deadline ? \Carbon\Carbon::parse($task->deadline)->format('Y-m-d') : '' }}"
         @change="updateField({{ $task->id }}, 'deadline', $event.target.value)"
         :disabled="loadingTaskId === {{ $task->id }}"
         class="
