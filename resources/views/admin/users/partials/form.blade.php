@@ -160,64 +160,7 @@
                     </div>
                 </div>
 
-                {{-- PERFIL PIPELINE INLINE --}}
-<div class="space-y-2">
-
-    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200">
-        Perfil de acesso
-    </label>
-
-    <div class="flex flex-col items-center gap-2">
-
-        <div
-            role="radiogroup"
-            aria-label="Tipo de usuário"
-            class="flex items-center justify-center"
-        >
-
-            {{-- USUÁRIO --}}
-            <button
-                type="button"
-                role="radio"
-                aria-label="Usuário"
-                :aria-checked="form.is_admin == 0"
-                @click="form.is_admin = 0"
-                class="flex h-10 w-10 items-center justify-center rounded-full border-2  transition"
-                :class="form.is_admin == 0
-                    ? 'border-blue-700 bg-blue-700 text-white'
-                    : 'border-slate-300 bg-white text-slate-400 dark:bg-gray-950 dark:border-gray-700'"
-            >
-                <x-lucide-user class="h-6 w-6" />
-            </button>
-
-            {{-- LINHA --}}
-            <span class="mx-2 h-0.5 w-8 rounded bg-slate-300 dark:bg-gray-700"></span>
-
-            {{-- ADMIN --}}
-            <button
-                type="button"
-                role="radio"
-                aria-label="Administrador"
-                :aria-checked="form.is_admin == 1"
-                @click="form.is_admin = 1"
-                class="flex h-10 w-10 items-center justify-center rounded-full border-2 transition"
-                :class="form.is_admin == 1
-                    ? 'border-yellow-400 bg-yellow-400 text-white'
-                    : 'border-slate-300 bg-white text-slate-400 dark:bg-gray-950 dark:border-gray-700'"
-            >
-                <x-lucide-star class="h-6 w-6" />
-            </button>
-
-        </div>
-
-        {{-- LABELS --}}
-        <div class="flex w-full justify-center gap-10 text-xs text-gray-500 dark:text-gray-400">
-            <span>Usuário</span>
-            <span>Admin</span>
-        </div>
-
-    </div>
-</div>
+              
                 
 
                 {{-- FOOTER --}}

@@ -13,8 +13,22 @@ class Task extends Model
         'priority',
         'status',
         'deadline',
-        'user_id'
+        'user_id',
     ];
+
+    
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'deadline' => 'date',
+        ];
+    }
+
 
     public function user(): BelongsTo
     {

@@ -22,10 +22,7 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function create(): View
-    {
-        return view('admin.users.create');
-    }
+
 
     public function store(Request $request): RedirectResponse
     {
@@ -46,11 +43,6 @@ class UserController extends Controller
         return redirect()
             ->route('admin.users.index')
             ->with('success', "Usuário {$user->name} criado com sucesso.");
-    }
-
-    public function edit(User $user): View
-    {
-        return view('admin.users.edit', compact('user'));
     }
 
     public function update(Request $request, User $user): RedirectResponse

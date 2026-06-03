@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -14,7 +15,6 @@ class TaskController extends Controller
         $user = auth()->user();
 
         $baseQuery = $user->tasks()->with('user');
-
 
         $tasks = (clone $baseQuery)
             ->latest()
@@ -87,24 +87,18 @@ class TaskController extends Controller
             ->with('success', 'Tarefa atualizada com sucesso.');
     }
 
-    // =========================
-    // DELETE TASK
-    // =========================
-    public function destroy(Task $task)
+    public function destroy(Task $task): JsonResponse
     {
         $this->authorizeTaskAccess($task);
 
         $task->delete();
 
         return response()->json([
-            'success' => true
+            'success' => true,
         ]);
     }
 
-    // =========================
-    // TOGGLE STATUS
-    // =========================
-    public function toggle(Task $task)
+    public function toggle(Task $task): JsonResponse
     {
         $this->authorizeTaskAccess($task);
 
@@ -116,77 +110,64 @@ class TaskController extends Controller
 
         return response()->json([
             'success' => true,
-            'status' => $task->status
+            'status' => $task->status,
         ]);
     }
 
-    // =========================
-    // INLINE UPDATE
-    // =========================
-    public function inlineUpdate(Request $request, Task $task)
+    public function inlineUpdate(Request $request, Task $task): JsonResponse
     {
         $this->authorizeTaskAccess($task);
 
         $request->validate([
             'field' => 'required|string',
-            'value' => 'nullable'
+            'value' => 'nullable',
         ]);
 
         $allowedFields = [
             'title',
             'status',
             'priority',
-            'deadline'
+            'deadline',
         ];
 
-        if (!in_array($request->field, $allowedFields)) {
-
+        if (! in_array($request->field, $allowedFields)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Campo inválido'
+                'message' => 'Campo inválido',
             ], 422);
         }
 
-        // VALIDAÇÃO STATUS
         if ($request->field === 'status') {
-
-            if (!in_array($request->value, [
+            if (! in_array($request->value, [
                 'a_fazer',
                 'fazendo',
-                'concluida'
+                'concluida',
             ])) {
-
                 return response()->json([
                     'success' => false,
-                    'message' => 'Status inválido'
+                    'message' => 'Status inválido',
                 ], 422);
             }
         }
 
-        // VALIDAÇÃO PRIORIDADE
         if ($request->field === 'priority') {
-
-            if (!in_array($request->value, [
+            if (! in_array($request->value, [
                 'baixa',
                 'media',
-                'alta'
+                'alta',
             ])) {
-
                 return response()->json([
                     'success' => false,
-                    'message' => 'Prioridade inválida'
+                    'message' => 'Prioridade inválida',
                 ], 422);
             }
         }
 
-        // VALIDAÇÃO TÍTULO
         if ($request->field === 'title') {
-
             if (strlen(trim($request->value)) < 3) {
-
                 return response()->json([
                     'success' => false,
-                    'message' => 'Título muito curto'
+                    'message' => 'Título muito curto',
                 ], 422);
             }
         }
@@ -196,18 +177,15 @@ class TaskController extends Controller
         $task->save();
 
         return response()->json([
-            'success' => true
+            'success' => true,
         ]);
     }
 
-    // =========================
-    // AUTORIZAÇÃO
-    // =========================
     private function authorizeTaskAccess(Task $task): void
     {
         $user = auth()->user();
 
-        if ($task->user_id !== $user->id) {      
+        if ($task->user_id !== $user->id) {
             abort(403);
         }
     }

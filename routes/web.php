@@ -29,7 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('admin.')
         ->group(function () {
             Route::resource('users', AdminUserController::class)
-                ->except(['show']);
+                  ->except(['show', 'create', 'edit']);
         });
 });
 
