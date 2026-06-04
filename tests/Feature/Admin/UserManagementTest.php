@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\Task;
+
+
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,7 +19,7 @@ it('allows admins to list and create users', function () {
     $this->actingAs($admin)
         ->get(route('admin.users.index'))
         ->assertOk()
-        ->assertSee('Usuários');
+        ->assertSee('Administração de usuários');
 
     $this->post(route('admin.users.store'), [
         'name' => 'Novo Admin',
@@ -45,6 +46,7 @@ it('allows admins to update users and protects their own admin access', function
             'email' => 'editado@example.com',
             'password' => 'new-password',
             'password_confirmation' => 'new-password',
+            'current_admin_password' => 'password',
             'is_admin' => '1',
         ])->assertRedirect(route('admin.users.index'));
 
@@ -92,20 +94,20 @@ it('keeps task access restricted to the task owner even for admins', function ()
     $admin = User::factory()->create(['is_admin' => true]);
     $owner = User::factory()->create(['is_admin' => false]);
 
-    $adminTask = Task::create([
+     $adminTask = $admin->tasks()->create([
         'title' => 'Tarefa do admin',
         'description' => 'Visível apenas para o admin dono',
         'priority' => 'media',
         'status' => 'a_fazer',
-        'user_id' => $admin->id,
+       
     ]);
 
-    $otherTask = Task::create([
+     $otherTask = $owner->tasks()->create([
         'title' => 'Tarefa de outro usuário',
         'description' => 'Não deve aparecer para admin',
         'priority' => 'alta',
         'status' => 'fazendo',
-        'user_id' => $owner->id,
+     
     ]);
 
     $this->actingAs($admin)

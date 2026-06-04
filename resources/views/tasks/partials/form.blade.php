@@ -67,106 +67,25 @@
                 <div>
 
                     <label
+                        for="description"
                         class="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
                         Descrição
                     </label>
+                    
+                       <textarea
+                        x-model="form.description"
+                        name="description"
+                        id="description"
+                        maxlength="5000"
+                        placeholder="Digite uma descrição simples para a tarefa..."
+                        @paste="blockImagePaste($event)"
+                        class="min-h-[180px] w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm outline-none transition-all focus:border-gray-700 focus:ring-0 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
+                    ></textarea>
 
-                    <div
-                        class="overflow-hidden rounded-md border border-gray-300 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
+                    <p class="mt-1 text-xs text-gray-500">
+                        HTML e imagens coladas são bloqueados por segurança. Envie imagens como anexos futuramente.
+                    </p>
 
-                        {{-- TOOLBAR --}}
-                        <div
-                            class="sticky top-0 z-10 flex flex-wrap items-center gap-1 border-b border-gray-200 bg-gray-50 p-1 dark:border-gray-700 dark:bg-gray-800">
-
-                            {{-- BOLD --}}
-                            <button type="button"
-                                @mousedown.prevent
-
-                                @click="format('bold')"
-                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
-
-                                <x-lucide-bold class="h-4 w-4 text-gray-700 dark:text-gray-200" />
-                            </button>
-
-                            {{-- ITALIC --}}
-                            <button type="button"
-                                @mousedown.prevent
-
-                                @click="format('italic')"
-                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
-
-                                <x-lucide-italic class="h-4 w-4 text-gray-700 dark:text-gray-200" />
-                            </button>
-
-                            {{-- UNDERLINE --}}
-                            <button type="button"
-                                @mousedown.prevent
-
-                                @click="format('underline')"
-                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
-
-                                <x-lucide-underline class="h-4 w-4 text-gray-700 dark:text-gray-200" />
-                            </button>
-
-                            
-
-                           
-                            <div class="mx-1 h-5 w-px bg-gray-300 dark:bg-gray-600"></div>
-
-                            {{-- LEFT --}}
-                            <button type="button"
-                                @mousedown.prevent
-
-                                @click="format('justifyLeft')"
-                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
-
-                                <x-lucide-align-left class="h-4 w-4 text-gray-700 dark:text-gray-200" />
-                            </button>
-
-                            {{-- CENTER --}}
-                            <button type="button"
-                                @mousedown.prevent
-
-                                @click="format('justifyCenter')"
-                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
-
-                                <x-lucide-align-center class="h-4 w-4 text-gray-700 dark:text-gray-200" />
-                            </button>
-
-                            {{-- RIGHT --}}
-                            <button type="button"
-                                @mousedown.prevent
-
-                                @click="format('justifyRight')"
-                                class="rounded-md p-2 transition hover:bg-gray-200 dark:hover:bg-gray-700">
-
-                                <x-lucide-align-right class="h-4 w-4 text-gray-700 dark:text-gray-200" />
-                            </button>
-                        </div>
-
-                       {{-- EDITOR --}}
-<div
-    id="editor"
-    contenteditable="true"
-    @keyup="syncEditor()"
-    @paste="handlePaste($event)"
-    spellcheck="false"
-    autocomplete="off"
-    autocorrect="off"
-    autocapitalize="off"
-    data-gramm="false"
-    data-gramm_editor="false"
-    data-enable-grammarly="false"
-    class="min-h-[260px] max-h-[400px] overflow-y-auto break-words whitespace-pre-wrap p-3 text-sm leading-7 text-gray-700 outline-none dark:text-gray-200">
-</div>
-
-<textarea
-    x-model="form.description"
-    name="description"
-    id="description"
-    class="hidden">
-</textarea>
-                    </div>
                 </div>
 
                 {{-- CAMPOS --}}

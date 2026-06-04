@@ -1,1 +1,1 @@
-<img src="{{ asset('img//ChatGPT Image 20 de mai. de 2026, 18_29_38.png') }}" {{ $attributes }} />
+<img src="{{ asset('img/logo-todopro.png') }}" alt="TodoPro" {{ $attributes }} />

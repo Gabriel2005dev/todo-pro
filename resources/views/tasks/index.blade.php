@@ -44,249 +44,61 @@
 
              
                     
+  <form method="GET" action="{{ route('tasks.index') }}" class="ml-auto flex flex-wrap items-center gap-3 text-gray-500">
+                        <div class="relative">
+                            <x-lucide-search class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500" />
 
-                    {{-- AÇÕES --}}
-<div class="flex  items-center gap-5 text-gray-500 ml-auto relative">
+                            <input
+                                type="text"
+                                name="search"
+                                value="{{ request('search') }}"
+                                placeholder="Pesquisar tarefa..."
+                                class="w-72 rounded-lg border border-gray-300 bg-white py-2.5 pl-12 pr-4 text-sm text-gray-700 focus:border-red-700 focus:outline-none focus:ring-0.5 focus:ring-red-700"
+                            >
+                        </div>
 
-   {{-- PESQUISA --}}
-<div class="relative">
+                        <select
+                            name="status"
+                            class="rounded-lg border border-gray-300 bg-white py-2.5 text-sm text-gray-700 focus:border-red-700 focus:ring-0.5 focus:ring-red-700"
+                            aria-label="Filtrar por status"
+                        >
+                            <option value="">Todos os status</option>
+                            <option value="a_fazer" @selected(request('status') === 'a_fazer')>Pendentes</option>
+                            <option value="fazendo" @selected(request('status') === 'fazendo')>Fazendo</option>
+                            <option value="concluida" @selected(request('status') === 'concluida')>Concluídas</option>
+                        </select>
 
-    <x-lucide-search
-        class="absolute left-2 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500"
-    />
+                        <select
+                            name="sort"
+                            class="rounded-lg border border-gray-300 bg-white py-2.5 text-sm text-gray-700 focus:border-red-700 focus:ring-0.5 focus:ring-red-700"
+                            aria-label="Ordenar tarefas"
+                        >
+                            <option value="recent" @selected(request('sort', 'recent') === 'recent')>Mais recentes</option>
+                            <option value="old" @selected(request('sort') === 'old')>Mais antigas</option>
+                        </select>
 
-    {{-- PESQUISA --}}
-<div class="relative">
+                        <button
+                            type="submit"
+                            class="inline-flex items-center gap-2 rounded bg-gray-800 px-4 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-gray-700"
+                        >
+                            Aplicar
+                        </button>
 
-    <x-lucide-search
-        class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
-    />
+                        @if(request()->hasAny(['search', 'status', 'sort']))
+                            <a href="{{ route('tasks.index') }}" class="text-sm font-semibold text-rose-600 hover:text-rose-700">
+                                Limpar
+                            </a>
+                        @endif
 
-<div class="relative">
-
-    {{-- ÍCONE --}}
-    <x-lucide-search
-        class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500"
-    />
-
-    <input
-        type="text"
-        x-model="search"
-        placeholder="Pesquisar tarefa..."
-        class="
-            w-72
-            rounded-lg
-            border
-            border-gray-300
-            bg-white
-            py-2.5
-            pl-12
-            pr-4
-            text-sm
-            text-gray-700
-            focus:border-red-700
-            focus:ring-0.5
-            focus:ring-red-700
-            focus:outline-none
-            
-           
-            
-        "
-    >
-
-</div>
-
-</div>
-
-</div>
-
-{{-- FILTRO --}}
-<div class="relative">
-
-    {{-- BOTÃO --}}
-    <button
-        @click="showFilter = !showFilter"
-        class="relative cursor-pointer transition-all duration-200 hover:scale-110 hover:text-gray-950"
-    >
-
-        <x-lucide-filter class="h-5 w-5" />
-
-        {{-- INDICADOR DE FILTRO ATIVO --}}
-        <template x-if="filters.status !== 'todas'">
-            <span
-                class="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-gray-600"
-            ></span>
-        </template>
-
-    </button>
-
-    {{-- DROPDOWN --}}
-    <div
-        x-show="showFilter"
-        x-transition
-        @click.outside="showFilter = false"
-        class="fixed right-0 top-10 z-50 w-56 rounded-md border border-gray-300 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
-    >
-
-        {{-- TODAS --}}
-        <button
-            @click="
-                filters.status = 'todas';
-                showFilter = false
-            "
-            :class="filters.status === 'todas'
-                ? 'bg-violet-100 text-violet-700'
-                : ''"
-            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-violet-50"
-        >
-            Todas
-        </button>
-
-        {{-- PENDENTES --}}
-        <button
-            @click="
-                filters.status = 'a_fazer';
-                showFilter = false
-            "
-            :class="filters.status === 'a_fazer'
-                ? 'bg-amber-100 text-amber-700'
-                : ''"
-            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-amber-50"
-        >
-            Pendentes
-        </button>
-
-        {{-- FAZENDO --}}
-        <button
-            @click="
-                filters.status = 'fazendo';
-                showFilter = false
-            "
-            :class="filters.status === 'fazendo'
-                ? 'bg-violet-100 text-violet-700'
-                : ''"
-            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-violet-50"
-        >
-            Fazendo
-        </button>
-
-        {{-- CONCLUÍDAS --}}
-        <button
-            @click="
-                filters.status = 'concluida';
-                showFilter = false
-            "
-            :class="filters.status === 'concluida'
-                ? 'bg-emerald-100 text-emerald-700'
-                : ''"
-            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-emerald-50"
-        >
-            Concluídas
-        </button>
-
-        <hr class="my-2">
-
-        {{-- LIMPAR --}}
-        <button
-            @click="
-                filters.status = 'todas';
-                showFilter = false
-            "
-            class="flex w-full items-center rounded-xs px-3 py-2 text-sm text-rose-600 transition hover:bg-rose-50"
-        >
-            Limpar filtro
-        </button>
-
-    </div>
-
-</div> 
-
-{{-- ORDENAR --}}
-<div class="relative">
-
-    {{-- BOTÃO --}}
-    <button
-        @click="showSort = !showSort"
-        class="relative cursor-pointer transition-all duration-200 hover:scale-110 hover:text-gray-950"
-    >
-
-        <x-lucide-arrow-up-down class="h-5 w-5" />
-
-        {{-- INDICADOR --}}
-        <template x-if="sortBy !== ''">
-            <span
-                class="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-violet-600"
-            ></span>
-        </template>
-
-    </button>
-
-    {{-- DROPDOWN --}}
-    <div
-        x-show="showSort"
-        x-transition
-        @click.outside="showSort = false"
-        class="fixed right-0 top-10 z-50 w-56 rounded-md border border-gray-300 bg-white p-2 shadow-2xl dark:border-gray-700 dark:bg-gray-900"
-    >
-
-        {{-- MAIS RECENTES --}}
-        <button
-            @click="
-                sortBy = 'recent';
-                sortTasks();
-                showSort = false
-            "
-            :class="sortBy === 'recent'
-                ? 'bg-violet-100 text-violet-700'
-                : ''"
-            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-violet-50"
-        >
-            Mais recentes
-        </button>
-
-        {{-- MAIS ANTIGAS --}}
-        <button
-            @click="
-                sortBy = 'old';
-                sortTasks();
-                showSort = false
-            "
-            :class="sortBy === 'old'
-                ? 'bg-violet-100 text-violet-700'
-                : ''"
-            class="flex w-full items-center rounded-xs px-3 py-2 text-sm transition hover:bg-violet-50"
-        >
-            Mais antigas
-        </button>
-
-        <hr class="my-2">
-
-        {{-- LIMPAR --}}
-        <button
-            @click="
-                sortBy = '';
-                location.reload();
-            "
-            class="flex w-full items-center rounded-xs px-3 py-2 text-sm text-rose-600 transition hover:bg-rose-50"
-        >
-            Limpar ordenação
-        </button>
-
-    </div>
-
-</div>
-
-
-    {{-- NOVA TASK --}}
-    <button
-        @click="openCreateModal()"
-        class="ml-2 inline-flex items-center gap-2 rounded bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-red-600"
-    >
-        Nova Tarefa
-        <x-lucide-plus class="h-4 w-4" />
-    </button>
-
-</div>
+                        <button
+                            type="button"
+                            @click="openCreateModal()"
+                            class="ml-2 inline-flex items-center gap-2 rounded bg-red-700 px-4 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-red-600"
+                        >
+                            Nova Tarefa
+                            <x-lucide-plus class="h-4 w-4" />
+                        </button>
+                    </form></tr>
                  
 
                 </div>
@@ -332,13 +144,6 @@
 
        <tr
     id="task-row-{{ $task->id }}"
-    x-show="
-matchesFilter('{{ $task->status }}')
-&&
-'{{ strtolower($task->title) }}'
-.includes(search.toLowerCase())
-"
-
     class="transition hover:bg-red-50/50 dark:hover:bg-red-900/10"
 >
 
@@ -364,7 +169,7 @@ matchesFilter('{{ $task->status }}')
 />
 
                         <p class="mt-1 truncate text-xs text-gray-500">
-                            {!! strip_tags($task->description) ?: 'Sem descrição' !!}
+                                {{ \Illuminate\Support\Str::limit(strip_tags($task->description ?? ''), 120) ?: 'Sem descrição' }}
                         </p>
 
                     </div>
@@ -543,17 +348,23 @@ matchesFilter('{{ $task->status }}')
 
 
                     {{-- EDITAR COMPLETO --}}
-                    <x-lucide-message-square-text
+                     <button
+                        type="button"
+                        aria-label="Editar tarefa {{ $task->title }}"
                         @click="openEditModal({{ Js::from($task) }})"
-                        class="h-5 w-5 text-gray-500 hover:text-gray-900 cursor-pointer transition"
-                    />
-
-                    {{-- EXCLUIR --}}
+                       class="flex items-center"
+                    >
+                        <x-lucide-message-square-text
+                            class="h-5 w-5 text-gray-500 hover:text-gray-900 cursor-pointer transition"
+                        />
+                    </button>
+                    
                     {{-- EXCLUIR TASK --}}
 <button
     @click="deleteTask({{ $task->id }})"
     class="flex items-center"
     type="button"
+    aria-label="Excluir tarefa {{ $task->title }}"
 >
 
     {{-- LOADING --}}
@@ -593,6 +404,12 @@ matchesFilter('{{ $task->status }}')
     </table>
 
 </div>
+
+    @if ($tasks->hasPages())
+        <div class="border-t border-gray-200 p-4">
+            {{ $tasks->links() }}
+        </div>
+    @endif
 
             </div>
 
@@ -634,107 +451,21 @@ matchesFilter('{{ $task->status }}')
     function taskDashboard() {
         return {
 
-            filters: {
-                status: 'todas'
-            },
-
+        
             isCreateOpen: false,
             isEditOpen: false,
-            isViewOpen: false,
-
-            selectedTask: null,
+        
 
             loadingTaskId: null,
             deletingTaskId: null,
             priorityPreview: {},
             statusPreview: {},
 
-            showSearch: false,
-showFilter: false,
-showSort: false,
-
-search: '',
-sortBy: '',
-sortTasks() {
-
-    const tbody = document.querySelector('tbody');
-
-    const rows = Array.from(
-        tbody.querySelectorAll('tr[id^="task-row-"]')
-    );
-
-    rows.sort((a, b) => {
-
-        const dateA = new Date(
-            a.querySelector('input[type="date"]').value || '1900-01-01'
-        );
-
-        const dateB = new Date(
-            b.querySelector('input[type="date"]').value || '1900-01-01'
-        );
-
-        if (this.sortBy === 'recent') {
-            return dateB - dateA;
-        }
-
-        if (this.sortBy === 'old') {
-            return dateA - dateB;
-        }
-
-        return 0;
-    });
-
-    rows.forEach(row => tbody.appendChild(row));
-},
-
             form: {},
             formAction: '',
             formMethod: 'POST',
 
-            // =========================
-            // TOGGLE CONCLUÍDA
-            // =========================
-            async toggleComplete(taskId) {
-
-                this.loadingTaskId = taskId;
-
-                try {
-
-                    const response = await fetch(`/tasks/${taskId}/toggle`, {
-                        method: 'PATCH',
-                        headers: {
-                            'X-CSRF-TOKEN': document
-                                .querySelector('meta[name="csrf-token"]')
-                                .getAttribute('content'),
-
-                            'Accept': 'application/json',
-                        }
-                    });
-
-                    const data = await response.json();
-
-                    if (data.success) {
-
-                        const row = document.querySelector(`#task-row-${taskId}`);
-
-                        if (row) {
-                            row.classList.add('opacity-50');
-                        }
-
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 300);
-                    }
-
-                } catch (error) {
-
-                    console.error(error);
-
-                } finally {
-
-                    this.loadingTaskId = null;
-                }
-            },
+         
 
             // =========================
             // UPDATE INLINE
@@ -788,14 +519,6 @@ sortTasks() {
                 }
             },
 
-            matchesFilter(taskStatus) {
-
-                return (
-                    this.filters.status === 'todas' ||
-                    this.filters.status === taskStatus
-                );
-            },
-
             // =========================
             // PRIORIDADE (Stars)
             // =========================
@@ -839,15 +562,6 @@ sortTasks() {
                     : 1;
             },
 
-            statusLabel(status) {
-                return status === 'a_fazer'
-                    ? ''
-                    : status === 'fazendo'
-                    ? ''
-                    : status === 'concluida'
-                    ? ''
-                    : 'Pendente';
-            },
 
             async setStatus(taskId, serverStatus, nextStatus) {
                 this.statusPreview[taskId] = nextStatus;
@@ -929,14 +643,6 @@ sortTasks() {
                 };
 
                 this.isCreateOpen = true;
-
-                this.$nextTick(() => {
-                    const editor = document.getElementById('editor');
-
-                    if (editor) {
-                        editor.innerHTML = '';
-                    }
-                });
             },
 
             // =========================
@@ -956,23 +662,6 @@ sortTasks() {
                 };
 
                 this.isEditOpen = true;
-
-                this.$nextTick(() => {
-                    const editor = document.getElementById('editor');
-
-                    if (editor) {
-                        editor.innerHTML = task.description ?? '';
-                    }
-                });
-            },
-
-            // =========================
-            // MODAL VISUALIZAR
-            // =========================
-            openViewModal(task) {
-
-                this.selectedTask = task;
-                this.isViewOpen = true;
             },
 
             // =========================
@@ -987,56 +676,17 @@ sortTasks() {
             // =========================
             // EDITOR
             // =========================
-            initEditor() {
+             blockImagePaste(event) {
+                const items = event.clipboardData?.items ?? [];
 
-                this.$watch('form.description', (value) => {
-
-                    const editor = document.getElementById('editor');
-
-                    if (editor && editor.innerHTML !== value) {
-                        editor.innerHTML = value || '';
+                 for (const item of items) {
+                    if (item.type.startsWith('image/')) {
+                        event.preventDefault();
+                        alert('Envie imagens como anexos; colagem direta não é permitida.');
+                        return;
                     }
-                });
-            },
-
-            format(command) {
-
-                document.execCommand(command, false, null);
-
-                this.syncEditor();
-            },
-
-            syncEditor() {
-
-                const editor = document.getElementById('editor');
-
-                this.form.description = editor.innerHTML;
-            },
-
-            // =========================
-            // STATUS CLASS
-            // =========================
-            statusClass(status) {
-
-                return {
-                    a_fazer: 'bg-amber-100 text-amber-700',
-                    fazendo: 'bg-violet-100 text-violet-700',
-                    concluida: 'bg-emerald-100 text-emerald-700'
-                }[status] ?? 'bg-gray-100 text-gray-700';
-            },
-
-            // =========================
-            // PRIORIDADE CLASS
-            // =========================
-            priorityClass(priority) {
-
-                return {
-                    baixa: 'bg-sky-100 text-sky-700',
-                    media: 'bg-orange-100 text-orange-700',
-                    alta: 'bg-rose-100 text-rose-700'
-                }[priority] ?? 'bg-gray-100 text-gray-700';
+                }
             }
-
         }
     }
 </script>

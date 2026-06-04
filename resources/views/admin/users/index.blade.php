@@ -39,6 +39,14 @@
                         Gerencie contas do sistema
                     </p>
                 </div>
+                    <button
+                    type="button"
+                    @click="openCreateModal()"
+                    class="inline-flex items-center gap-2 rounded bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-red-600"
+                >
+                    Novo usuário
+                    <x-lucide-plus class="h-4 w-4" />
+                </button>
             </div>
 
             {{-- TABLE --}}
@@ -69,6 +77,7 @@
 
                                         @if($user->avatar)
                                             <img src="{{ asset('storage/' . $user->avatar) }}"
+                                            alt="Avatar de {{ $user->name }}"
                                                  class="w-10 h-10 rounded-full object-cover border">
                                         @else
                                             <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
@@ -99,7 +108,7 @@
             @if($user->is_admin)
                 <x-lucide-shield class="h-5 w-5" />
             @else
-                <x-lucide-user class="h-5 w-5" />
+                <x-lucide-user class="h-5 w-5" aria-label="Usuário" />
             @endif
         </div>
 
@@ -126,6 +135,7 @@
         {{-- EDIT --}}
         <button
             type="button"
+            aria-label="Editar usuário {{ $user->name }}"
             @click="openEditModal({{ Js::from($user) }})"
             class="flex items-center justify-center"
         >
@@ -144,6 +154,7 @@
 
             <button
                 type="submit"
+                aria-label="Excluir usuário {{ $user->name }}"
                 class="flex items-center justify-center"
             >
                 <x-lucide-trash-2 class="w-5 h-5 text-rose-500 hover:text-rose-700"/>
@@ -161,6 +172,11 @@
                 </table>
 
             </div>
+            @if ($users->hasPages())
+                <div class="border-t border-gray-200 p-4">
+                    {{ $users->links() }}
+                </div>
+            @endif
         </div>
 
         {{-- MODAL --}}
@@ -173,7 +189,11 @@
         function userDashboard() {
             return {
 
+                isCreateOpen: false,
                 isEditOpen: false,
+
+                formAction: '',
+                formMethod: 'POST',
 
                 form: {
                     id: '',
@@ -181,23 +201,44 @@
                     email: '',
                     password: '',
                     password_confirmation: '',
+                    current_admin_password: '',
                     is_admin: 0,
                 },
 
+                openCreateModal() {
+                    this.formAction = '{{ route('admin.users.store') }}';
+                    this.formMethod = 'POST';
+                    this.form = {
+                        id: '',
+                        name: '',
+                        email: '',
+                        password: '',
+                        password_confirmation: '',
+                        current_admin_password: '',
+                        is_admin: 0,
+                    };
+
+                    this.isCreateOpen = true;
+                },
+
                 openEditModal(user) {
+                    this.formAction = `/admin/users/${user.id}`;
+                    this.formMethod = 'PUT';
                     this.form = {
                         id: user.id,
                         name: user.name,
                         email: user.email,
                         password: '',
                         password_confirmation: '',
-                        is_admin: user.is_admin ? 1 : 0, 
+                        current_admin_password: '',
+                        is_admin: user.is_admin ? 1 : 0,
                     };
 
                     this.isEditOpen = true;
                 },
 
                 closeModal() {
+                    this.isCreateOpen = false;
                     this.isEditOpen = false;
                 }
 

@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
-
 
 class User extends Authenticatable
 {
@@ -25,10 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin',
-        'avatar',
-
-
+        'avatar'
     ];
 
     /**
@@ -52,12 +46,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
-
         ];
     }
 
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
+    }
+
+        public function promoteToAdmin(): void
+    {
+        $this->forceFill(['is_admin' => true])->save();
+    }
+
+    public function demoteFromAdmin(): void
+    {
+        $this->forceFill(['is_admin' => false])->save();
     }
 }

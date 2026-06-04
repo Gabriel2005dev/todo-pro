@@ -6,21 +6,20 @@ use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+     return auth()->check()
+        ? redirect()->route('tasks.index')
+        : redirect()->route('login');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::redirect('/dashboard', '/tasks')->name('dashboard');
 
-    Route::get('/dashboard', [TaskController::class, 'index'])
-        ->name('dashboard');
+     Route::resource('tasks', TaskController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
 
-    Route::resource('tasks', TaskController::class);
-
-    // TOGGLE STATUS
     Route::patch('/tasks/{task}/toggle', [TaskController::class, 'toggle'])
         ->name('tasks.toggle');
 
-    // INLINE UPDATE
     Route::patch('/tasks/{task}/inline-update', [TaskController::class, 'inlineUpdate'])
         ->name('tasks.inline-update');
 
@@ -29,12 +28,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('admin.')
         ->group(function () {
             Route::resource('users', AdminUserController::class)
-                  ->except(['show', 'create', 'edit']);
+                  ->only(['index', 'store', 'update', 'destroy']);
         });
 });
 
 Route::middleware('auth')->group(function () {
-
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
@@ -47,4 +45,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 });
+
 require __DIR__.'/auth.php';

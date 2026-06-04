@@ -13,7 +13,7 @@ class Task extends Model
         'priority',
         'status',
         'deadline',
-        'user_id',
+
     ];
 
     
