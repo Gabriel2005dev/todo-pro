@@ -57,38 +57,135 @@
                             >
                         </div>
 
-                        <select
-                            name="status"
-                            class="rounded-lg border border-gray-300 bg-white py-2.5 text-sm text-gray-700 focus:border-red-700 focus:ring-0.5 focus:ring-red-700"
-                            aria-label="Filtrar por status"
-                        >
-                            <option value="">Todos os status</option>
-                            <option value="a_fazer" @selected(request('status') === 'a_fazer')>Pendentes</option>
-                            <option value="fazendo" @selected(request('status') === 'fazendo')>Fazendo</option>
-                            <option value="concluida" @selected(request('status') === 'concluida')>Concluídas</option>
-                        </select>
+                        <div class="flex items-center gap-2">
 
-                        <select
-                            name="sort"
-                            class="rounded-lg border border-gray-300 bg-white py-2.5 text-sm text-gray-700 focus:border-red-700 focus:ring-0.5 focus:ring-red-700"
-                            aria-label="Ordenar tarefas"
-                        >
-                            <option value="recent" @selected(request('sort', 'recent') === 'recent')>Mais recentes</option>
-                            <option value="old" @selected(request('sort') === 'old')>Mais antigas</option>
-                        </select>
+  {{-- STATUS --}}
+<div
+    x-data="{ open: false }"
+    class="relative"
+>
+  <button
+    type="button"
+    @click="open = !open"
+    @click.outside="open = false"
+    class="relative flex h-10 w-10 items-center justify-center rounded-md transition-all duration-200
+    {{ request()->filled('status')
+        ? 'bg-red-50 text-red-700'
+        : 'bg-white text-gray-600 hover:bg-slate-100'
+    }}"
+>
+    <x-lucide-filter class="h-5 w-5" />
 
-                        <button
-                            type="submit"
-                            class="inline-flex items-center gap-2 rounded bg-gray-800 px-4 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-gray-700"
-                        >
-                            Aplicar
-                        </button>
+    @if(request()->filled('status'))
+        <span class="absolute right-1.5 top-1.5 flex h-2.5 w-2.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-600"></span>
+        </span>
+    @endif
+</button>
 
-                        @if(request()->hasAny(['search', 'status', 'sort']))
-                            <a href="{{ route('tasks.index') }}" class="text-sm font-semibold text-rose-600 hover:text-rose-700">
-                                Limpar
-                            </a>
-                        @endif
+    <div
+    x-show="open"
+    x-transition
+    class="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-xl border border-gray-200 bg-white py-1 shadow-xl"
+    style="display:none;"
+>
+    <a
+        href="{{ route('tasks.index', array_merge(request()->query(), ['status' => 'a_fazer'])) }}"
+        class="block w-full px-4 py-2.5 text-left text-sm transition
+        {{ request('status') === 'a_fazer'
+            ? 'bg-red-50 font-medium text-red-700'
+            : 'hover:bg-gray-50 text-gray-700' }}"
+    >
+        Pendentes
+    </a>
+
+    <a
+        href="{{ route('tasks.index', array_merge(request()->query(), ['status' => 'fazendo'])) }}"
+        class="block w-full px-4 py-2.5 text-left text-sm transition
+        {{ request('status') === 'fazendo'
+            ? 'bg-red-50 font-medium text-red-700'
+            : 'hover:bg-gray-50 text-gray-700' }}"
+    >
+        Fazendo
+    </a>
+
+    <a
+        href="{{ route('tasks.index', array_merge(request()->query(), ['status' => 'concluida'])) }}"
+        class="block w-full px-4 py-2.5 text-left text-sm transition
+        {{ request('status') === 'concluida'
+            ? 'bg-red-50 font-medium text-red-700'
+            : 'hover:bg-gray-50 text-gray-700' }}"
+    >
+        Concluídas
+    </a>
+</div>
+</div>
+
+    {{-- ORDENAÇÃO --}}
+<div
+    x-data="{ open: false }"
+    class="relative"
+>
+<button
+    type="button"
+    @click="open = !open"
+    @click.outside="open = false"
+    class="relative flex h-10 w-10 items-center justify-center rounded-md transition-all duration-200
+    {{ request('sort') === 'old'
+    ? 'bg-red-50 text-red-700'
+    : 'bg-white text-gray-600 hover:bg-slate-100'
+    }}"
+>
+    <x-lucide-arrow-up-down class="h-5 w-5" />
+
+  @if(request()->has('sort'))
+    <span class="absolute right-1.5 top-1.5 flex h-2.5 w-2.5">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+        <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-600"></span>
+    </span>
+@endif
+</button>
+
+<div
+    x-show="open"
+    x-transition
+    class="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-xl border border-gray-200 bg-white py-1 shadow-xl"
+    style="display:none;"
+>
+    <a
+        href="{{ route('tasks.index', array_merge(request()->query(), ['sort' => 'recent'])) }}"
+        class="block w-full px-4 py-2.5 text-left text-sm transition
+        {{ request('sort', 'recent') === 'recent'
+            ? 'bg-red-50 font-medium text-red-700'
+            : 'hover:bg-gray-50 text-gray-700' }}"
+    >
+        Mais recentes
+    </a>
+
+    <a
+        href="{{ route('tasks.index', array_merge(request()->query(), ['sort' => 'old'])) }}"
+        class="block w-full px-4 py-2.5 text-left text-sm transition
+        {{ request('sort') === 'old'
+            ? 'bg-red-50 font-medium text-red-700'
+            : 'hover:bg-gray-50 text-gray-700' }}"
+    >
+        Mais antigas
+    </a>
+</div>
+
+</div>
+
+</div>
+@if(request()->hasAny(['search', 'status', 'sort']))
+    <a
+        href="{{ route('tasks.index') }}"
+        class="flex h-10 w-10 items-center justify-center rounded-md border  bg-red-700 text-white transition-all hover:bg-white hover:text-red-700"
+        title="Limpar filtros"
+    >
+        <x-lucide-x class="h-6 w-6" />
+    </a>
+@endif
 
                         <button
                             type="button"
