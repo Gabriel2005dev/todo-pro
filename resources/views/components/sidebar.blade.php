@@ -120,10 +120,12 @@
             {{-- NOME --}}
             <div
                 class="text-left transition-all duration-200 overflow-hidden"
-                :class="sidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'">
+                :class="sidebarOpen ? 'opacity-100 w-auto' : 'opacity-0 w-0'"
+                title="{{ Auth::user()->name }}&#10;{{ Auth::user()->email }}
+                ">
 
                 <div class="font-semibold text-sm text-gray-800 whitespace-nowrap">
-                    {{ Auth::user()->name }}
+                     {{ explode(' ', Auth::user()->name)[0]}}
                 </div>
 
                 <div class="text-xs text-gray-500 whitespace-nowrap">

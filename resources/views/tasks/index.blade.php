@@ -73,6 +73,7 @@
         ? 'bg-red-50 text-red-700'
         : 'bg-white text-gray-600 hover:bg-slate-100'
     }}"
+    title="Filtrar status"
 >
     <x-lucide-filter class="h-5 w-5" />
 
@@ -136,6 +137,7 @@
     ? 'bg-red-50 text-red-700'
     : 'bg-white text-gray-600 hover:bg-slate-100'
     }}"
+    title="Ordenar"
 >
     <x-lucide-arrow-up-down class="h-5 w-5" />
 
@@ -450,6 +452,7 @@
                         aria-label="Editar tarefa {{ $task->title }}"
                         @click="openEditModal({{ Js::from($task) }})"
                        class="flex items-center"
+                       title="Editar texto da tarefa"
                     >
                         <x-lucide-message-square-text
                             class="h-5 w-5 text-gray-500 hover:text-gray-900 cursor-pointer transition"
@@ -462,6 +465,8 @@
     class="flex items-center"
     type="button"
     aria-label="Excluir tarefa {{ $task->title }}"
+    title="Excluir tarefa"
+
 >
 
     {{-- LOADING --}}
@@ -547,8 +552,9 @@
     <script>
     function taskDashboard() {
         return {
+            tasksData: {},
 
-        
+
             isCreateOpen: false,
             isEditOpen: false,
         
@@ -568,6 +574,7 @@
             // UPDATE INLINE
             // =========================
             async updateField(taskId, field, value) {
+                
 
                 this.loadingTaskId = taskId;
 
@@ -595,6 +602,10 @@
                     });
 
                     const data = await response.json();
+
+                    if (data.success) {
+                        this.updateLocalTask(taskId, field, value);
+}
 
                     if (!data.success) {
                         console.error(data.message);
@@ -723,6 +734,15 @@
                 }
             },
 
+            updateLocalTask(taskId, field, value) {
+
+                if (!this.tasksData[taskId]) {
+                    this.tasksData[taskId] = {};
+                }
+
+                this.tasksData[taskId][field] = value;
+            },
+
             // =========================
             // MODAL CRIAR
             // =========================
@@ -747,16 +767,23 @@
             // =========================
             openEditModal(task) {
 
+                 console.log('DEADLINE:', task.deadline);
+
                 this.formAction = `/tasks/${task.id}`;
                 this.formMethod = 'PUT';
 
+                const localTask = this.tasksData[task.id] ?? {};
+
                 this.form = {
-                    title: task.title ?? '',
-                    description: task.description ?? '',
-                    status: task.status ?? 'a_fazer',
-                    priority: task.priority ?? 'media',
-                    deadline: task.deadline ?? ''
+                    title: localTask.title ?? task.title ?? '',
+                    description: localTask.description ?? task.description ?? '',
+                    status: localTask.status ?? task.status ?? 'a_fazer',
+                    priority: localTask.priority ?? task.priority ?? 'media',
+                    deadline: localTask.deadline
+                        ?? (task.deadline ? task.deadline.split('T')[0] : '')
                 };
+
+                
 
                 this.isEditOpen = true;
             },

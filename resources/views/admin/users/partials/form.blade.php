@@ -239,7 +239,7 @@
                                 <x-lucide-user class="h-5 w-5" />
                             </button>
 
-                            <span class="mx-2 h-0.5 w-8 rounded bg-slate-300 dark:bg-gray-700"></span>
+                            <span class="mx-2 h-0.5 w-6 rounded bg-slate-300 dark:bg-gray-700"></span>
 
                             <button
                                 type="button"
