@@ -16,6 +16,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
+<html x-data="theme()" x-init="initTheme()" :class="{ 'dark': darkMode }">
 <body class="font-sans antialiased">
 
     <div

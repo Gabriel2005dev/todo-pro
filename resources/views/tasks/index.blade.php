@@ -37,10 +37,10 @@
 
 
             {{-- TABELA --}}
-            <div class="overflow-visible rounded-xl bg-white shadow-sm ring-1 border border-gray-300 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800">
+            <div class="overflow-visible rounded-xl bg-white shadow-sm ring-1 border border-gray-300 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800 dark:border-gray-900">
 
                 {{-- TOPO --}}
-                <div class="flex flex-col rounded-t-xl gap-4 border-b border-gray-300 bg-white/80 p-4 backdrop-blur-xl dark:border-gray-800 dark:bg-[#18181b]/80 lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex flex-col rounded-t-xl gap-4 border-b border-gray-300 bg-white/80 p-4 backdrop-blur-xl dark:border-gray-800 dark:bg-gray-900 lg:flex-row lg:items-center lg:justify-between">
 
              
                     
@@ -53,7 +53,7 @@
                                 name="search"
                                 value="{{ request('search') }}"
                                 placeholder="Pesquisar tarefa..."
-                                class="w-72 rounded-lg border border-gray-300 bg-white py-2.5 pl-12 pr-4 text-sm text-gray-700 focus:border-red-700 focus:outline-none focus:ring-0.5 focus:ring-red-700"
+                                class="w-72 rounded-lg border border-gray-300 bg-white py-2.5 pl-12 pr-4 text-sm text-gray-700 focus:border-red-700 focus:outline-none focus:ring-0.5 focus:ring-red-700 dark:bg-gray-900 dark:border-gray-800 dark:text-white "
                             >
                         </div>
 
@@ -68,7 +68,7 @@
     type="button"
     @click="open = !open"
     @click.outside="open = false"
-    class="relative flex h-10 w-10 items-center justify-center rounded-md transition-all duration-200
+    class="relative flex h-10 w-10 items-center justify-center rounded-md transition-all duration-200 dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-800
     {{ request()->filled('status')
         ? 'bg-red-50 text-red-700'
         : 'bg-white text-gray-600 hover:bg-slate-100'
@@ -133,6 +133,7 @@
     @click="open = !open"
     @click.outside="open = false"
     class="relative flex h-10 w-10 items-center justify-center rounded-md transition-all duration-200
+     dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-800
     {{ request('sort') === 'old'
     ? 'bg-red-50 text-red-700'
     : 'bg-white text-gray-600 hover:bg-slate-100'
@@ -296,10 +297,10 @@
                 :aria-checked="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 1"
                 :disabled="loadingTaskId === {{ $task->id }}"
                 @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'a_fazer')"
-                class="flex h-7 w-7 items-center justify-center rounded-full border-2 transition disabled:opacity-50"
+                class="flex h-7 w-7 items-center justify-center rounded-full border-2  transition disabled:opacity-50"
                 :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 1
                     ? 'border-amber-500 bg-amber-500 text-white shadow-lg shadow-amber-500/30'
-                    : 'border-slate-300 bg-white text-slate-400'"
+                    : 'border-slate-300 text-slate-400 dark:border-gray-500'"
             >
 
                 <x-lucide-x class="h-3.5 w-3.5" />
@@ -320,7 +321,7 @@
                 class="flex h-7 w-7 items-center justify-center rounded-full border-2 transition disabled:opacity-50"
                 :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 2
                     ? 'border-violet-500 bg-violet-500 text-white shadow-lg shadow-violet-500/30'
-                    : 'border-slate-300 bg-white text-slate-400'"
+                    : 'border-slate-300 text-slate-400 dark:border-gray-500'"
             >
 
                 <x-lucide-arrow-right class="h-3.5 w-3.5" />
@@ -341,7 +342,7 @@
                 class="flex h-7 w-7 items-center justify-center rounded-full border-2 transition disabled:opacity-50"
                 :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 3
                     ? 'border-emerald-500 bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
-                    : 'border-slate-300 bg-white text-slate-400'"
+                    : 'border-slate-300 text-slate-400 dark:border-gray-500'"
             >
 
                 <x-lucide-check class="h-3.5 w-3.5" />
