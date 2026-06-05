@@ -37,10 +37,11 @@
 
 
             {{-- TABELA --}}
-            <div class="overflow-visible rounded-xl bg-white shadow-sm ring-1 border border-gray-300 ring-gray-100 dark:bg-gray-900 dark:ring-gray-800 dark:border-gray-900">
+                  <div class="overflow-visible rounded-xl bg-white shadow-sm ring-1 ring-gray-100 border border-gray-300 dark:bg-gray-900 dark:ring-gray-900 dark:border-gray-800">
+          
 
                 {{-- TOPO --}}
-                <div class="flex flex-col rounded-t-xl gap-4 border-b border-gray-300 bg-white/80 p-4 backdrop-blur-xl dark:border-gray-800 dark:bg-gray-900 lg:flex-row lg:items-center lg:justify-between">
+                  <div class="flex flex-col rounded-t-xl gap-4 border-b border-gray-300  p-4 backdrop-blur-xl  dark:bg-gray-900 lg:flex-row lg:items-center lg:justify-between dark:border-gray-800">
 
              
                     
@@ -299,7 +300,7 @@
                 @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'a_fazer')"
                 class="flex h-7 w-7 items-center justify-center rounded-full border-2  transition disabled:opacity-50"
                 :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 1
-                    ? 'border-amber-500 bg-amber-500 text-white shadow-lg shadow-amber-500/30'
+                    ? 'border-amber-500 bg-amber-500 text-white shadow-lg shadow-amber-500/30 dark:text-gray-900'
                     : 'border-slate-300 text-slate-400 dark:border-gray-500'"
             >
 
@@ -308,7 +309,7 @@
             </button>
 
             {{-- LINHA --}}
-            <span class="mx-1 h-0.5 w-6 rounded bg-slate-300"></span>
+            <span class="mx-1 h-0.5 w-6 rounded bg-slate-300 dark:bg-gray-500"></span>
 
             {{-- FAZENDO --}}
             <button
@@ -320,7 +321,7 @@
                 @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'fazendo')"
                 class="flex h-7 w-7 items-center justify-center rounded-full border-2 transition disabled:opacity-50"
                 :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 2
-                    ? 'border-violet-500 bg-violet-500 text-white shadow-lg shadow-violet-500/30'
+                    ? 'border-violet-500 bg-violet-500 text-white shadow-lg shadow-violet-500/30 dark:text-gray-900'
                     : 'border-slate-300 text-slate-400 dark:border-gray-500'"
             >
 
@@ -329,7 +330,7 @@
             </button>
 
             {{-- LINHA --}}
-            <span class="mx-1 h-0.5 w-6 rounded bg-slate-300"></span>
+            <span class="mx-1 h-0.5 w-6 rounded bg-slate-300 dark:bg-gray-500"></span>
 
             {{-- CONCLUÍDA --}}
             <button
@@ -341,7 +342,7 @@
                 @click="setStatus({{ $task->id }}, '{{ $task->status }}', 'concluida')"
                 class="flex h-7 w-7 items-center justify-center rounded-full border-2 transition disabled:opacity-50"
                 :class="statusToStep(statusPreview[{{ $task->id }}] ?? '{{ $task->status }}') === 3
-                    ? 'border-emerald-500 bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
+                    ? 'border-emerald-500 bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 dark:text-gray-900'
                     : 'border-slate-300 text-slate-400 dark:border-gray-500'"
             >
 
@@ -421,23 +422,48 @@
             {{-- DATA --}}
           <td class="px-4 py-4 text-center">
 
+          <style>
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        width: 40px;
+        height: 100%;
+        cursor: pointer;
+    }
+</style>
+
+<div class="relative w-fit">
+
     <input
         type="date"
         value="{{ $task->deadline ? \Carbon\Carbon::parse($task->deadline)->format('Y-m-d') : '' }}"
         @change="updateField({{ $task->id }}, 'deadline', $event.target.value)"
         :disabled="loadingTaskId === {{ $task->id }}"
         class="
-            rounded-lg
+            rounded
             border
             border-gray-300
             bg-white
-            px-2
-            py-1
+            px-3
+            py-2
+            pr-5
             text-sm
-            focus:border-violet-500
             focus:ring-0
+            dark:bg-gray-900
+            dark:text-white
+            dark:border-gray-500
         "
     >
+
+    {{-- ÍCONE PERSONALIZADO --}}
+    <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+        <x-lucide-calendar class="w-4 h-4 dark:text-white" />
+    </div>
+
+</div>
+
+ 
 
 </td>
 
